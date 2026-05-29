@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frosted — Homemade Sorbets & Ice Creams</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════
+   GLOBAL RESET & VARIABLES
+═══════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Mono', monospace; font-weight: 300; overflow-x: hidden; background: #0a0004; }
+
+/* ═══════════════════════════════════════════════════════
+   PAGE SYSTEM
+═══════════════════════════════════════════════════════ */
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
+
+/* ═══════════════════════════════════════════════════════
+   HOME PAGE — DEEP CRIMSON EDITORIAL
+═══════════════════════════════════════════════════════ */
+#home {
+  background: #0a0004;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Grain overlay */
+#home::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.6;
+}
+
+.home-nav {
+  position: relative;
+  z-index: 10;
+  padding: 2rem 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(220, 30, 60, 0.15);
+}
+
+.logo {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.logo span {
+  color: #DC1E3C;
+}
+
+.nav-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+
+/* Hero */
+.home-hero {
+  position: relative;
+  z-index: 5;
+  padding: 8vh 5vw 6vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4vw;
+  align-items: center;
+  min-height: 55vh;
+}
+
+.home-hero-text { animation: hfade 1s ease both; }
+
+.home-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #DC1E3C;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.home-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: #DC1E3C;
+}
+
+.home-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  font-weight: 900;
+  line-height: 0.9;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.home-title em {
+  font-style: italic;
+  color: #FF4060;
+  display: block;
+}
+
+.home-subtitle {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.45);
+  max-width: 380px;
+  margin-bottom: 2.5rem;
+}
+
+.home-stats {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.home-stat-num {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #FF4060;
+  line-height: 1;
+  display: block;
+}
+.home-stat-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-top: 0.3rem;
+}
+
+/* Big decorative circle */
+.home-orb {
+  width: min(380px, 40vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FF8080, #DC1E3C 55%, #6B0010);
+  box-shadow:
+    0 0 120px rgba(220,30,60,0.4),
+    0 0 0 1px rgba(255,255,255,0.05),
+    inset 0 -40px 80px rgba(0,0,0,0.3),
+    inset 30px 20px 80px rgba(255,180,180,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(5rem, 12vw, 9rem);
+  filter: drop-shadow(0 20px 60px rgba(200,0,30,0.5));
+  animation: orbfloat 6s ease-in-out infinite;
+  margin: 0 auto;
+}
+
+/* Recipe grid */
+.recipe-section {
+  position: relative;
+  z-index: 5;
+  padding: 2rem 5vw 8rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(220,30,60,0.15);
+}
+
+.section-header h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.section-count {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+}
+
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Recipe Cards */
+.recipe-card {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.recipe-card:hover { transform: translateY(-8px) scale(1.01); }
+.recipe-card:hover .card-arrow { transform: translateX(4px); opacity: 1; }
+
+.card-bg {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.6s ease;
+}
+.recipe-card:hover .card-bg { transform: scale(1.05); }
+
+/* Mango card */
+.card-mango .card-bg {
+  background: linear-gradient(145deg, #1a0800, #4A1800, #8B3500, #FF8C00);
+}
+.card-mango .card-accent { color: #FFB347; }
+.card-mango .card-badge { background: rgba(255,140,0,0.2); border-color: rgba(255,140,0,0.4); color: #FFB347; }
+.card-mango .card-btn { background: linear-gradient(135deg, #FF8C00, #FFB347); }
+
+/* Watermelon card */
+.card-watermelon .card-bg {
+  background: linear-gradient(145deg, #100008, #3D0015, #8B0020, #DC1E3C);
+}
+.card-watermelon .card-accent { color: #FF4060; }
+.card-watermelon .card-badge { background: rgba(220,30,60,0.2); border-color: rgba(220,30,60,0.4); color: #FF6080; }
+.card-watermelon .card-btn { background: linear-gradient(135deg, #DC1E3C, #FF4060); }
+
+/* Coming soon card */
+.card-soon .card-bg {
+  background: linear-gradient(145deg, #0a0a0a, #1a1a2e, #16213e);
+}
+.card-soon .card-accent { color: rgba(255,255,255,0.3); }
+.card-soon .card-badge { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); }
+.card-soon .card-btn { background: rgba(255,255,255,0.1); cursor: not-allowed; }
+.card-soon { opacity: 0.6; cursor: default; }
+.card-soon:hover { transform: none; }
+
+.card-inner {
+  position: relative;
+  z-index: 2;
+  padding: 2.5rem;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-emoji {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.4));
+  transition: transform 0.4s ease;
+}
+.recipe-card:hover .card-emoji { transform: scale(1.15) rotate(-5deg); }
+
+.card-category {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 0.5rem;
+}
+
+.card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+}
+
+.card-subtitle {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.card-badge {
+  padding: 0.25rem 0.7rem;
+  border-radius: 100px;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  border: 1px solid;
+  font-weight: 500;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-sources {
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.05em;
+}
+
+.card-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 100px;
+  border: none;
+  color: #fff;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.card-btn:hover { opacity: 0.9; transform: scale(1.03); }
+
+.card-arrow {
+  transition: transform 0.3s, opacity 0.3s;
+  opacity: 0.7;
+}
+
+/* Coming soon overlay */
+.card-soon-label {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 5;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.4);
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Bottom marquee */
+.marquee-strip {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: #DC1E3C;
+  padding: 0.6rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-inner {
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+}
+
+.marquee-sep {
+  display: inline-block;
+  margin: 0 2rem;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SHARED RECIPE PAGE COMPONENTS
+═══════════════════════════════════════════════════════ */
+
+/* Back button */
+.back-btn {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 100px;
+  border: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: all 0.25s;
+}
+
+.back-btn:hover { transform: translateX(-3px); }
+
+/* Serving adjuster */
+.serving-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.serving-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+.serving-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 100px;
+  padding: 0.35rem 0.5rem;
+}
+.serving-btn {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+.serving-btn:hover { transform: scale(1.1); }
+.serving-count {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  min-width: 2rem;
+  text-align: center;
+}
+
+/* Timer badge */
+.timer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  margin-top: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Mono', monospace;
+  border: 1px solid;
+}
+
+/* ═══════════════════════════════════════════════════════
+   MANGO PAGE
+═══════════════════════════════════════════════════════ */
+#mango {
+  --m: #FF8C00;
+  --m-light: #FFB347;
+  --m-pale: #FFF3DC;
+  --m-deep: #D4600A;
+  --m-text: #1A1008;
+  --m-soft: #6B4F2A;
+  background: #FFF8F0;
+  color: #1A1008;
+}
+
+#mango .back-btn {
+  background: rgba(255,140,0,0.15);
+  border: 1px solid rgba(255,140,0,0.3);
+  color: #D4600A;
+}
+#mango .back-btn:hover { background: rgba(255,140,0,0.25); }
+
+/* Mango Hero */
+.m-hero {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #FF8C00 0%, #FFB347 40%, #FFF3DC 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 8rem 8vw 10rem;
+  gap: 4vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.m-hero::before {
+  content: '';
+  position: absolute;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);
+  top: -200px; right: -200px;
+  pointer-events: none;
+}
+
+.m-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.m-eyebrow::before { content: ''; display: inline-block; width: 28px; height: 1px; background: rgba(255,255,255,0.7); }
+
+.m-hero h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.92;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+.m-hero h1 em { font-style: italic; display: block; font-weight: 400; font-size: 0.78em; color: rgba(255,255,255,0.88); }
+
+.m-desc {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.8;
+  max-width: 420px;
+  margin-bottom: 2rem;
+}
+
+.m-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.m-badge {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 0.35rem 0.9rem;
+  border-radius: 100px;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+}
+
+.m-orb {
+  width: min(380px, 40vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFD580, #FF8C00 60%, #C96800);
+  box-shadow: 0 40px 100px rgba(180,80,0,0.4), inset 0 -30px 60px rgba(0,0,0,0.15), inset 20px 20px 60px rgba(255,220,100,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(4rem, 9vw, 8rem);
+  margin: 0 auto;
+  animation: orbfloat 5s ease-in-out infinite;
+}
+
+.m-stats {
+  position: absolute;
+  bottom: 6vh;
+  left: 8vw;
+  display: flex;
+  gap: 3vw;
+}
+.m-stat-num { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: #fff; line-height: 1; display: block; }
+.m-stat-label { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
+.m-stat-divider { width: 1px; background: rgba(255,255,255,0.25); align-self: stretch; }
+
+/* Mango sticky nav */
+.m-sticky-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,248,240,0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,140,0,0.15);
+  padding: 0.8rem 5vw;
+  display: flex; gap: 2rem; overflow-x: auto;
+}
+.m-nav-link {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(26,16,8,0.4);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.m-nav-link:hover { color: #FF8C00; }
+
+.m-wave { height: 3px; background: linear-gradient(90deg, #FF8C00, #FFB347, #FFD580, #FF8C00); background-size: 200%; animation: wave 4s linear infinite; }
+
+/* Mango content sections */
+.m-section { max-width: 1100px; margin: 0 auto; padding: 5rem 5vw; }
+.m-section-alt { background: #FFF3DC; }
+.m-section-dark { background: #1A1008; }
+.m-section-dark .m-sec-label { color: #FFB347; }
+.m-section-dark .m-sec-label::before { background: #FFB347; }
+.m-section-dark .m-sec-title { color: #fff; }
+.m-section-dark .source-contrib { color: rgba(255,255,255,0.6); }
+.m-section-dark .source-name { color: #FFB347; }
+.m-section-dark .source-card { background: rgba(255,255,255,0.05); border-color: rgba(255,140,0,0.2); }
+.m-section-dark .source-card:hover { background: rgba(255,140,0,0.1); border-color: rgba(255,140,0,0.4); }
+
+.m-sec-label {
+  font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: #FF8C00; font-weight: 500;
+  margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.75rem;
+}
+.m-sec-label::before { content: ''; display: inline-block; width: 22px; height: 1px; background: #FF8C00; }
+.m-sec-title { font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; color: #1A1008; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+
+/* Ingredient cards */
+.ing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+.ing-card {
+  background: #fff; border-radius: 16px; padding: 1.3rem 1.5rem;
+  display: flex; align-items: flex-start; gap: 1rem;
+  box-shadow: 0 2px 16px rgba(255,140,0,0.07); border: 1px solid rgba(255,140,0,0.1);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.ing-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(255,140,0,0.15); }
+.ing-icon-box {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: linear-gradient(135deg, #FFB347, #FF8C00);
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;
+}
+.ing-amount { font-family: 'Bodoni Moda', serif; font-size: 1.3rem; font-weight: 700; color: #D4600A; line-height: 1; }
+.ing-unit { font-size: 0.6em; font-weight: 400; color: #6B4F2A; }
+.ing-name { font-size: 0.82rem; color: #1A1008; margin-top: 0.2rem; line-height: 1.4; }
+.ing-note { font-size: 0.65rem; color: #6B4F2A; margin-top: 0.2rem; font-style: italic; }
+
+/* Steps */
+.steps-list { margin-top: 3rem; position: relative; }
+.steps-list::before {
+  content: ''; position: absolute; left: 26px; top: 26px; bottom: 0;
+  width: 2px; background: linear-gradient(to bottom, #FF8C00, transparent);
+}
+.step { display: grid; grid-template-columns: 52px 1fr; gap: 2rem; margin-bottom: 3rem; }
+.step-num {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, #FFB347, #FF8C00);
+  color: #fff; font-family: 'Bodoni Moda', serif; font-size: 1.2rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  box-shadow: 0 4px 20px rgba(255,140,0,0.35); position: relative; z-index: 1;
+}
+.step-body { padding-top: 0.5rem; }
+.step-title {
+  font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 700; color: #1A1008;
+  margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.75rem;
+}
+.step-text { font-size: 0.87rem; line-height: 1.85; color: #3D2B10; max-width: 680px; }
+.step-tip {
+  margin-top: 0.8rem; padding: 0.75rem 1rem; background: #FFF3DC;
+  border-left: 3px solid #FF8C00; border-radius: 0 10px 10px 0;
+  font-size: 0.78rem; color: #6B4F2A; line-height: 1.6;
+}
+.step-tip strong { color: #D4600A; }
+
+/* Orange timer */
+.m-timer {
+  background: rgba(255,179,71,0.15); border-color: rgba(255,140,0,0.4);
+  color: #D4600A;
+}
+.m-timer:hover { background: linear-gradient(135deg, #FFB347, #FF8C00); color: #fff; border-color: transparent; }
+
+/* Tips grid */
+.tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+.tip-card {
+  background: #fff; border-radius: 20px; padding: 1.8rem;
+  border: 1px solid rgba(255,140,0,0.12); box-shadow: 0 2px 20px rgba(255,140,0,0.06);
+}
+.tip-emoji { font-size: 1.8rem; margin-bottom: 0.8rem; display: block; }
+.tip-title { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: #1A1008; }
+.tip-text { font-size: 0.8rem; color: #6B4F2A; line-height: 1.7; }
+
+/* Variations */
+.var-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; margin-top: 2rem; }
+.var-card {
+  padding: 1.2rem 1.4rem; border-radius: 14px; border: 2px solid rgba(255,140,0,0.18);
+  transition: all 0.25s; cursor: default;
+}
+.var-card:hover { border-color: #FF8C00; background: #FFF3DC; }
+.var-emoji { font-size: 1.7rem; display: block; margin-bottom: 0.5rem; }
+.var-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 0.95rem; color: #1A1008; margin-bottom: 0.3rem; }
+.var-desc { font-size: 0.75rem; color: #6B4F2A; line-height: 1.5; }
+
+/* Methods */
+.m-methods-bg { background: linear-gradient(135deg, #FF8C00, #FFB347); }
+.m-methods-bg .m-sec-label { color: rgba(255,255,255,0.8); }
+.m-methods-bg .m-sec-label::before { background: rgba(255,255,255,0.8); }
+.m-methods-bg .m-sec-title { color: #fff; }
+.method-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.2rem; margin-top: 2.5rem; }
+.method-card {
+  background: rgba(255,255,255,0.18); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.35); border-radius: 20px; padding: 1.8rem; color: #fff;
+  transition: background 0.25s;
+}
+.method-card:hover { background: rgba(255,255,255,0.28); }
+.method-icon { font-size: 1.8rem; margin-bottom: 0.8rem; display: block; }
+.method-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+.method-desc { font-size: 0.78rem; line-height: 1.65; color: rgba(255,255,255,0.82); }
+
+/* Sources */
+.source-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin-top: 2.5rem; }
+.source-card {
+  border-radius: 16px; padding: 1.5rem; border: 1px solid;
+  transition: all 0.25s;
+}
+.source-name { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
+.source-contrib { font-size: 0.8rem; line-height: 1.65; }
+.source-contrib strong { font-weight: 500; }
+
+/* Nutrition */
+.nutrition-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1px; background: rgba(255,140,0,0.2); border: 1px solid rgba(255,140,0,0.2); border-radius: 16px; overflow: hidden; margin-top: 2rem; }
+.nutrition-cell { background: #fff; padding: 1.4rem; text-align: center; }
+.nutrition-val { font-family: 'Bodoni Moda', serif; font-size: 1.8rem; font-weight: 700; color: #D4600A; line-height: 1; }
+.nutrition-label { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6B4F2A; margin-top: 0.4rem; }
+
+/* Footer */
+.recipe-footer {
+  background: #1A1008; color: rgba(255,255,255,0.4); text-align: center;
+  padding: 3rem 5vw; font-size: 0.75rem; line-height: 1.8;
+}
+.recipe-footer strong { color: #FFB347; }
+
+/* Sources strip */
+.sources-strip {
+  background: #1A1008; padding: 1.5rem 5vw;
+  display: flex; align-items: center; gap: 1.2rem; overflow-x: auto;
+}
+.sources-strip-label { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); white-space: nowrap; }
+.source-pill {
+  padding: 0.3rem 0.85rem; border-radius: 100px; font-size: 0.68rem; white-space: nowrap; font-weight: 500;
+}
+.m-pill { background: rgba(255,140,0,0.15); border: 1px solid rgba(255,140,0,0.3); color: #FFB347; }
+
+/* ═══════════════════════════════════════════════════════
+   WATERMELON PAGE
+═══════════════════════════════════════════════════════ */
+#watermelon {
+  --w: #DC1E3C;
+  --w-light: #FF4060;
+  --w-pale: #FFF0F3;
+  --w-deep: #A30020;
+  --w-text: #150008;
+  --w-soft: #5A2030;
+  background: #FFF5F7;
+  color: #150008;
+}
+
+#watermelon .back-btn {
+  background: rgba(220,30,60,0.12);
+  border: 1px solid rgba(220,30,60,0.3);
+  color: #A30020;
+}
+#watermelon .back-btn:hover { background: rgba(220,30,60,0.22); }
+
+/* Watermelon Hero */
+.w-hero {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #6B0010 0%, #DC1E3C 45%, #FF8090 75%, #FFE0E5 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 8rem 8vw 10rem;
+  gap: 4vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.w-hero::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+  bottom: -200px; left: -100px;
+  pointer-events: none;
+}
+
+.w-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.w-eyebrow::before { content: ''; display: inline-block; width: 28px; height: 1px; background: rgba(255,255,255,0.6); }
+
+.w-hero h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.92;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+.w-hero h1 em { font-style: italic; display: block; font-weight: 400; font-size: 0.78em; color: rgba(255,255,255,0.85); }
+
+.w-desc { font-size: 0.9rem; color: rgba(255,255,255,0.75); line-height: 1.8; max-width: 420px; margin-bottom: 2rem; }
+.w-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.w-badge {
+  background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.28);
+  color: #fff; padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.65rem; letter-spacing: 0.06em;
+}
+
+.w-orb {
+  width: min(380px, 40vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FF8090, #DC1E3C 55%, #6B0010);
+  box-shadow: 0 40px 100px rgba(150,0,30,0.5), inset 0 -30px 60px rgba(0,0,0,0.2), inset 20px 20px 60px rgba(255,150,160,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: clamp(4rem, 9vw, 8rem);
+  margin: 0 auto;
+  animation: orbfloat 5.5s ease-in-out infinite;
+}
+
+.w-stats { position: absolute; bottom: 6vh; left: 8vw; display: flex; gap: 3vw; }
+.w-stat-num { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: #fff; line-height: 1; display: block; }
+.w-stat-label { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+.w-stat-divider { width: 1px; background: rgba(255,255,255,0.2); align-self: stretch; }
+
+/* Watermelon sticky nav */
+.w-sticky-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,245,247,0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(220,30,60,0.12);
+  padding: 0.8rem 5vw;
+  display: flex; gap: 2rem; overflow-x: auto;
+}
+.w-nav-link {
+  font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(21,0,8,0.35); text-decoration: none; white-space: nowrap; transition: color 0.2s;
+}
+.w-nav-link:hover { color: #DC1E3C; }
+
+.w-wave { height: 3px; background: linear-gradient(90deg, #DC1E3C, #FF4060, #FFB0B8, #DC1E3C); background-size: 200%; animation: wave 4s linear infinite; }
+
+/* Watermelon content */
+.w-section { max-width: 1100px; margin: 0 auto; padding: 5rem 5vw; }
+.w-section-alt { background: #FFF0F3; }
+.w-section-dark { background: #150008; }
+.w-section-dark .w-sec-label { color: #FF6080; }
+.w-section-dark .w-sec-label::before { background: #FF6080; }
+.w-section-dark .w-sec-title { color: #fff; }
+.w-section-dark .source-contrib { color: rgba(255,255,255,0.55); }
+.w-section-dark .source-name { color: #FF6080; }
+.w-section-dark .source-card { background: rgba(255,255,255,0.04); border-color: rgba(220,30,60,0.2); }
+.w-section-dark .source-card:hover { background: rgba(220,30,60,0.1); border-color: rgba(220,30,60,0.4); }
+
+.w-sec-label {
+  font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: #DC1E3C; font-weight: 500;
+  margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.75rem;
+}
+.w-sec-label::before { content: ''; display: inline-block; width: 22px; height: 1px; background: #DC1E3C; }
+.w-sec-title { font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; color: #150008; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+
+/* Watermelon ingredient cards */
+.w-ing-card {
+  background: #fff; border-radius: 16px; padding: 1.3rem 1.5rem;
+  display: flex; align-items: flex-start; gap: 1rem;
+  box-shadow: 0 2px 16px rgba(220,30,60,0.06); border: 1px solid rgba(220,30,60,0.1);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.w-ing-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(220,30,60,0.14); }
+.w-ing-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: linear-gradient(135deg, #FF4060, #DC1E3C);
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;
+}
+.w-ing-amount { font-family: 'Bodoni Moda', serif; font-size: 1.3rem; font-weight: 700; color: #A30020; line-height: 1; }
+.w-ing-name { font-size: 0.82rem; color: #150008; margin-top: 0.2rem; line-height: 1.4; }
+.w-ing-note { font-size: 0.65rem; color: #5A2030; margin-top: 0.2rem; font-style: italic; }
+
+/* Watermelon steps */
+.w-steps-list { margin-top: 3rem; position: relative; }
+.w-steps-list::before {
+  content: ''; position: absolute; left: 26px; top: 26px; bottom: 0;
+  width: 2px; background: linear-gradient(to bottom, #DC1E3C, transparent);
+}
+.w-step { display: grid; grid-template-columns: 52px 1fr; gap: 2rem; margin-bottom: 3rem; }
+.w-step-num {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, #FF4060, #DC1E3C);
+  color: #fff; font-family: 'Bodoni Moda', serif; font-size: 1.2rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  box-shadow: 0 4px 20px rgba(220,30,60,0.35); position: relative; z-index: 1;
+}
+.w-step-body { padding-top: 0.5rem; }
+.w-step-title {
+  font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 700; color: #150008;
+  margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.75rem;
+}
+.w-step-text { font-size: 0.87rem; line-height: 1.85; color: #3D1020; max-width: 680px; }
+.w-step-tip {
+  margin-top: 0.8rem; padding: 0.75rem 1rem; background: #FFF0F3;
+  border-left: 3px solid #DC1E3C; border-radius: 0 10px 10px 0;
+  font-size: 0.78rem; color: #5A2030; line-height: 1.6;
+}
+.w-step-tip strong { color: #A30020; }
+
+.w-timer { background: rgba(220,30,60,0.1); border-color: rgba(220,30,60,0.35); color: #A30020; }
+.w-timer:hover { background: linear-gradient(135deg, #DC1E3C, #FF4060); color: #fff; border-color: transparent; }
+
+/* Watermelon tips */
+.w-tip-card {
+  background: #fff; border-radius: 20px; padding: 1.8rem;
+  border: 1px solid rgba(220,30,60,0.1); box-shadow: 0 2px 20px rgba(220,30,60,0.05);
+}
+
+/* Watermelon vars */
+.w-var-card {
+  padding: 1.2rem 1.4rem; border-radius: 14px; border: 2px solid rgba(220,30,60,0.15);
+  transition: all 0.25s; cursor: default;
+}
+.w-var-card:hover { border-color: #DC1E3C; background: #FFF0F3; }
+
+/* Watermelon methods */
+.w-methods-bg { background: linear-gradient(135deg, #6B0010, #DC1E3C); }
+.w-methods-bg .w-sec-label { color: rgba(255,255,255,0.75); }
+.w-methods-bg .w-sec-label::before { background: rgba(255,255,255,0.75); }
+.w-methods-bg .w-sec-title { color: #fff; }
+.w-method-card {
+  background: rgba(255,255,255,0.14); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.28); border-radius: 20px; padding: 1.8rem; color: #fff;
+  transition: background 0.25s;
+}
+.w-method-card:hover { background: rgba(255,255,255,0.24); }
+
+/* Watermelon nutrition */
+.w-nutrition-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1px;
+  background: rgba(220,30,60,0.15); border: 1px solid rgba(220,30,60,0.15);
+  border-radius: 16px; overflow: hidden; margin-top: 2rem;
+}
+.w-nutrition-cell { background: #fff; padding: 1.4rem; text-align: center; }
+.w-nutrition-val { font-family: 'Bodoni Moda', serif; font-size: 1.8rem; font-weight: 700; color: #A30020; line-height: 1; }
+.w-nutrition-label { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #5A2030; margin-top: 0.4rem; }
+
+.w-pill { background: rgba(220,30,60,0.15); border: 1px solid rgba(220,30,60,0.3); color: #FF6080; }
+
+/* ═══════════════════════════════════════════════════════
+   SHARED REVEAL & ANIMATIONS
+═══════════════════════════════════════════════════════ */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@keyframes hfade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes orbfloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-16px) rotate(2deg); } }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes wave { from { background-position: 0%; } to { background-position: 200%; } }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .home-hero, .m-hero, .w-hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 6rem 6vw 8rem;
+  }
+  .home-hero-text, .m-hero > div:first-child, .w-hero > div:first-child { order: 2; }
+  .home-orb, .m-orb, .w-orb { order: 1; width: min(220px, 55vw); }
+  .home-eyebrow, .m-eyebrow, .w-eyebrow { justify-content: center; }
+  .home-stats, .m-stats, .w-stats { position: static; margin-top: 2rem; justify-content: center; }
+  .m-badges, .w-badges { justify-content: center; }
+  .recipes-grid { grid-template-columns: 1fr; }
+  .steps-list::before, .w-steps-list::before { left: 20px; }
+  .step, .w-step { grid-template-columns: 44px 1fr; gap: 1.2rem; }
+  .step-num, .w-step-num { width: 44px; height: 44px; font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ╔═══════════════════════════════════════════════════╗
+     ║  HOME PAGE                                        ║
+     ╚═══════════════════════════════════════════════════╝ -->
+<div id="home" class="page active">
+
+  <nav class="home-nav">
+    <div class="logo">Frost<span>ed</span></div>
+    <div class="nav-tag">Homemade Sorbets & Ice Creams</div>
+  </nav>
+
+  <section class="home-hero">
+    <div class="home-hero-text">
+      <p class="home-eyebrow">Recipe Collection</p>
+      <h1 class="home-title">
+        Frozen<br>
+        <em>Perfection</em>
+      </h1>
+      <p class="home-subtitle">Every recipe distilled from multiple sources — the best techniques, the best tips, all in one place.</p>
+      <div class="home-stats">
+        <div>
+          <span class="home-stat-num">13+</span>
+          <span class="home-stat-label">Sources</span>
+        </div>
+        <div>
+          <span class="home-stat-num">2</span>
+          <span class="home-stat-label">Recipes</span>
+        </div>
+        <div>
+          <span class="home-stat-num">∞</span>
+          <span class="home-stat-label">Variations</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="home-orb">🍧</div>
+    </div>
+  </section>
+
+  <!-- Recipe Grid -->
+  <section class="recipe-section">
+    <div class="section-header">
+      <h2>Choose a Recipe</h2>
+      <span class="section-count">02 available · more coming soon</span>
+    </div>
+
+    <div class="recipes-grid">
+
+      <!-- Mango Card -->
+      <div class="recipe-card card-mango" onclick="goTo('mango')">
+        <div class="card-bg"></div>
+        <div class="card-inner">
+          <div>
+            <span class="card-emoji">🥭</span>
+            <div class="card-category">No-Churn Sorbet</div>
+            <div class="card-title">Mango<br>Sorbet</div>
+            <div class="card-subtitle" style="color:rgba(255,220,150,0.7)">Silky, intensely fruity, and scoopable. Synthesized from 8 expert sources — every tip combined.</div>
+            <div class="card-badges">
+              <span class="card-badge card-mango .card-badge">5 min active</span>
+              <span class="card-badge card-mango .card-badge">No ice cream maker</span>
+              <span class="card-badge card-mango .card-badge">Vegan</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-sources" style="color:rgba(255,180,80,0.6)">8 sources combined</span>
+            <button class="card-btn" style="background:linear-gradient(135deg,#FF8C00,#FFB347)">
+              View Recipe <span class="card-arrow">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Watermelon Card -->
+      <div class="recipe-card card-watermelon" onclick="goTo('watermelon')">
+        <div class="card-bg"></div>
+        <div class="card-inner">
+          <div>
+            <span class="card-emoji">🍉</span>
+            <div class="card-category">No-Churn Sorbet</div>
+            <div class="card-title">Watermelon<br>Sorbet</div>
+            <div class="card-subtitle" style="color:rgba(255,180,190,0.7)">Vibrant, refreshing, and silky-smooth. Built from 7 sources with every trick for beating the ice problem.</div>
+            <div class="card-badges">
+              <span class="card-badge">5 min active</span>
+              <span class="card-badge">No ice cream maker</span>
+              <span class="card-badge">Gluten-free</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="card-sources" style="color:rgba(255,100,120,0.6)">7 sources combined</span>
+            <button class="card-btn" style="background:linear-gradient(135deg,#DC1E3C,#FF4060)">
+              View Recipe <span class="card-arrow">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strawberry — Coming soon -->
+      <div class="recipe-card card-soon">
+        <div class="card-bg"></div>
+        <span class="card-soon-label">Coming Soon</span>
+        <div class="card-inner">
+          <div>
+            <span class="card-emoji" style="filter:grayscale(1) opacity(0.4)">🍓</span>
+            <div class="card-category" style="color:rgba(255,255,255,0.2)">No-Churn Sorbet</div>
+            <div class="card-title" style="color:rgba(255,255,255,0.25)">Strawberry<br>Sorbet</div>
+            <div class="card-subtitle" style="color:rgba(255,255,255,0.2)">Deep, jammy, and bright. Multi-source research in progress.</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-sources" style="color:rgba(255,255,255,0.2)">In development</span>
+            <button class="card-btn" style="background:rgba(255,255,255,0.08);cursor:not-allowed">Coming Soon</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Peach — Coming soon -->
+      <div class="recipe-card card-soon">
+        <div class="card-bg"></div>
+        <span class="card-soon-label">Coming Soon</span>
+        <div class="card-inner">
+          <div>
+            <span class="card-emoji" style="filter:grayscale(1) opacity(0.4)">🍑</span>
+            <div class="card-category" style="color:rgba(255,255,255,0.2)">Ice Cream</div>
+            <div class="card-title" style="color:rgba(255,255,255,0.25)">Peach<br>Ice Cream</div>
+            <div class="card-subtitle" style="color:rgba(255,255,255,0.2)">Creamy, summery, and fragrant. No-churn method, full flavor.</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-sources" style="color:rgba(255,255,255,0.2)">In development</span>
+            <button class="card-btn" style="background:rgba(255,255,255,0.08);cursor:not-allowed">Coming Soon</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Raspberry — Coming soon -->
+      <div class="recipe-card card-soon">
+        <div class="card-bg"></div>
+        <span class="card-soon-label">Coming Soon</span>
+        <div class="card-inner">
+          <div>
+            <span class="card-emoji" style="filter:grayscale(1) opacity(0.4)">🫐</span>
+            <div class="card-category" style="color:rgba(255,255,255,0.2)">No-Churn Sorbet</div>
+            <div class="card-title" style="color:rgba(255,255,255,0.25)">Blueberry<br>Sorbet</div>
+            <div class="card-subtitle" style="color:rgba(255,255,255,0.2)">Intensely purple, tart, and unexpected. High-source recipe incoming.</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-sources" style="color:rgba(255,255,255,0.2)">In development</span>
+            <button class="card-btn" style="background:rgba(255,255,255,0.08);cursor:not-allowed">Coming Soon</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-strip">
+    <span class="marquee-inner">
+      🥭 Mango Sorbet <span class="marquee-sep">✦</span> 🍉 Watermelon Sorbet <span class="marquee-sep">✦</span> 🍓 Strawberry Sorbet <span class="marquee-sep">✦</span> 🍑 Peach Ice Cream <span class="marquee-sep">✦</span> 🫐 Blueberry Sorbet <span class="marquee-sep">✦</span> 🍋 Lemon Gelato <span class="marquee-sep">✦</span> 🥥 Coconut Ice Cream <span class="marquee-sep">✦</span> 🍍 Pineapple Sorbet <span class="marquee-sep">✦</span>
+      🥭 Mango Sorbet <span class="marquee-sep">✦</span> 🍉 Watermelon Sorbet <span class="marquee-sep">✦</span> 🍓 Strawberry Sorbet <span class="marquee-sep">✦</span> 🍑 Peach Ice Cream <span class="marquee-sep">✦</span> 🫐 Blueberry Sorbet <span class="marquee-sep">✦</span> 🍋 Lemon Gelato <span class="marquee-sep">✦</span> 🥥 Coconut Ice Cream <span class="marquee-sep">✦</span> 🍍 Pineapple Sorbet <span class="marquee-sep">✦</span>
+    </span>
+  </div>
+
+</div><!-- /home -->
+
+
+<!-- ╔═══════════════════════════════════════════════════╗
+     ║  MANGO SORBET PAGE                                ║
+     ╚═══════════════════════════════════════════════════╝ -->
+<div id="mango" class="page">
+
+  <button class="back-btn" onclick="goTo('home')">← Back</button>
+
+  <!-- Hero -->
+  <section class="m-hero">
+    <div>
+      <p class="m-eyebrow">Compiled from 8 sources</p>
+      <h1>The Perfect<em>Mango Sorbet</em></h1>
+      <p class="m-desc">Every tip, technique, and insight from eight beloved recipes — distilled into one definitive, silky, no-churn masterpiece.</p>
+      <div class="m-badges">
+        <span class="m-badge">No Ice Cream Maker</span>
+        <span class="m-badge">Vegan</span>
+        <span class="m-badge">5 min active</span>
+        <span class="m-badge">6 servings</span>
+      </div>
+    </div>
+    <div><div class="m-orb">🥭</div></div>
+    <div class="m-stats">
+      <div><span class="m-stat-num">5'</span><span class="m-stat-label">Active Time</span></div>
+      <div class="m-stat-divider"></div>
+      <div><span class="m-stat-num">3h</span><span class="m-stat-label">Total Time</span></div>
+      <div class="m-stat-divider"></div>
+      <div><span class="m-stat-num">6</span><span class="m-stat-label">Servings</span></div>
+      <div class="m-stat-divider"></div>
+      <div><span class="m-stat-num">8</span><span class="m-stat-label">Sources</span></div>
+    </div>
+  </section>
+
+  <!-- Sources strip -->
+  <div class="sources-strip">
+    <span class="sources-strip-label">Based on</span>
+    <span class="source-pill m-pill">Minimalist Baker</span>
+    <span class="source-pill m-pill">Perry's Plate</span>
+    <span class="source-pill m-pill">Catherine Zhang</span>
+    <span class="source-pill m-pill">Gimme Some Oven</span>
+    <span class="source-pill m-pill">The Flavor Bender</span>
+    <span class="source-pill m-pill">Vitamix</span>
+    <span class="source-pill m-pill">Through the Fibro Fog</span>
+    <span class="source-pill m-pill">Baking a Moment</span>
+  </div>
+
+  <div class="m-wave"></div>
+
+  <!-- Nav -->
+  <nav class="m-sticky-nav">
+    <a class="m-nav-link" href="#m-ingredients">Ingredients</a>
+    <a class="m-nav-link" href="#m-steps">Method</a>
+    <a class="m-nav-link" href="#m-tips">Pro Tips</a>
+    <a class="m-nav-link" href="#m-variations">Variations</a>
+    <a class="m-nav-link" href="#m-methods">Equipment</a>
+    <a class="m-nav-link" href="#m-sources">Sources</a>
+    <a class="m-nav-link" href="#m-nutrition">Nutrition</a>
+  </nav>
+
+  <!-- Ingredients -->
+  <div id="m-ingredients">
+    <div class="m-section">
+      <p class="m-sec-label">What you need</p>
+      <h2 class="m-sec-title">Ingredients</h2>
+      <div class="serving-row">
+        <span class="serving-label">Servings</span>
+        <div class="serving-ctrl" style="background:#fff;border:1px solid rgba(255,140,0,0.2)">
+          <button class="serving-btn" style="background:#FF8C00;color:#fff" onclick="changeServings('m', -1)">−</button>
+          <span class="serving-count" id="m-serving-count" style="color:#1A1008">6</span>
+          <button class="serving-btn" style="background:#FF8C00;color:#fff" onclick="changeServings('m', 1)">+</button>
+        </div>
+      </div>
+      <div class="ing-grid" id="m-ing-grid"></div>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <div id="m-steps" style="background:#fff">
+    <div class="m-section">
+      <p class="m-sec-label">How to make it</p>
+      <h2 class="m-sec-title">Step-by-Step Method</h2>
+      <div class="steps-list">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3 class="step-title">🥭 Choose & Prep Your Mango</h3>
+            <p class="step-text">Mango quality is the single biggest factor. <strong>Ataulfo (honey/champagne) mangoes</strong> are the gold standard — fiberless, intensely sweet, cream into the smoothest sorbet. Tommy Atkins works but is stringier. Buy slightly underripe and ripen in a dark paper bag 1–2 days. If using fresh mango alongside frozen: cube and freeze it on parchment for at least 4 hours first.</p>
+            <div class="step-tip"><strong>Best varieties:</strong> Ataulfo · Alfonso · Kent · Manila · Calypso — all fiberless, all extraordinary. <em>(The Flavor Bender)</em></div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3 class="step-title">❄️ Rest the Frozen Mango (5 min)</h3>
+            <p class="step-text">Let frozen mango sit at room temperature for exactly 5 minutes. This slight thaw prevents the food processor from jamming without watering down the sorbet. <strong>Also put your storage container in the freezer now.</strong> A pre-chilled container dramatically reduces surface iciness.</p>
+            <span class="timer-badge m-timer" onclick="startTimer(300, this)">⏱ Start 5-min timer</span>
+            <div class="step-tip"><strong>Perry's Plate tip:</strong> Freeze the storage container before you even start blending.</div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3 class="step-title">⚙️ Blend the Base</h3>
+            <p class="step-text">Add mango to a food processor. Pulse a few times, then add in batches while running (Minimalist Baker tip). Add sugar, maple syrup, lime juice, lime zest, pineapple juice, ginger, salt, and coconut milk. Process continuously, scraping sides every 30–45 seconds. Stages: <strong>crumbly → chunky → smooth</strong>. Run 60–90 seconds past smooth for silkiest result.</p>
+            <div class="step-tip"><strong>Vitamix:</strong> Start low, ramp to high, use tamper. Stop when four mounds form — don't over-blend or it melts.</div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3 class="step-title">👅 Taste & Calibrate</h3>
+            <p class="step-text">The base should be <strong>slightly sweeter than you'd ideally want</strong> — freezing dulls sweetness. Sorbet needs at least 25–30% sugar by weight to stay scoopable (The Flavor Bender). More lime for brightness, more sugar for sweetness. If your Ataulfos were very ripe, barely any added sugar is needed.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h3 class="step-title">🍦 Serve Now or Freeze</h3>
+            <p class="step-text">Eat immediately for soft-serve — most readers across all 8 sites agreed this is the best way. For scoopable: transfer to pre-chilled container, press plastic wrap or parchment directly on the surface, seal tightly.</p>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <h3 class="step-title">🕐 Freeze Until Set</h3>
+            <p class="step-text">2–3 hours for soft-scoop, 4+ hours for firm. The higher your sugar content, the more scoopable it stays.</p>
+            <span class="timer-badge m-timer" onclick="startTimer(7200, this)">⏱ Start 2-hr timer</span>
+            <div class="step-tip"><strong>Too hard?</strong> Add 1–2 tbsp vodka or tequila to the base — alcohol prevents it freezing solid.</div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">7</div>
+          <div class="step-body">
+            <h3 class="step-title">🍽️ Scoop & Serve</h3>
+            <p class="step-text">Let sit at room temperature 10–15 minutes before scooping. Serve in chilled bowls. <strong>Keeps up to 2 weeks.</strong></p>
+            <div class="step-tip"><strong>Garnish ideas:</strong> Tajín or chili powder · extra lime zest · fresh mint · chamoy for a mangonada</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips -->
+  <div id="m-tips" class="m-section-alt">
+    <div class="m-section">
+      <p class="m-sec-label">Expert knowledge</p>
+      <h2 class="m-sec-title">Pro Tips from All 8 Sources</h2>
+      <div class="tips-grid">
+        <div class="tip-card reveal"><span class="tip-emoji">🔬</span><h3 class="tip-title">The Sugar Science</h3><p class="tip-text">For a scoopable sorbet, you need at least 25–30% sugar by weight. At lower concentrations it freezes into a brick. Sugar, honey, maple syrup, agave — all work. <em>(The Flavor Bender)</em></p></div>
+        <div class="tip-card reveal"><span class="tip-emoji">🫧</span><h3 class="tip-title">The Airiness Secret</h3><p class="tip-text">Whisk ¼ cup aquafaba with 2 tbsp sugar to almost-stiff peaks, fold into the base before freezing. The air incorporated gives an incredibly light, restaurant-quality texture. <em>(The Flavor Bender)</em></p></div>
+        <div class="tip-card reveal"><span class="tip-emoji">🍍</span><h3 class="tip-title">The Pineapple Trick</h3><p class="tip-text">2 tbsp unsweetened pineapple juice brightens and amplifies mango flavor without tasting like pineapple. It provides acidity and natural sugar without sharp sourness. <em>(Perry's Plate)</em></p></div>
+        <div class="tip-card reveal"><span class="tip-emoji">🌿</span><h3 class="tip-title">Zest, Not Just Juice</h3><p class="tip-text">Lime zest contains fragrant essential oils that juice alone can't provide. Adding both gives a brighter, more complex citrus character. <em>(Gimme Some Oven)</em></p></div>
+        <div class="tip-card reveal"><span class="tip-emoji">🧊</span><h3 class="tip-title">Freeze Your Container</h3><p class="tip-text">Put your storage container in the freezer before you start. Transferring sorbet into a pre-chilled container means it re-freezes faster and forms smaller ice crystals. <em>(Perry's Plate)</em></p></div>
+        <div class="tip-card reveal"><span class="tip-emoji">🥭</span><h3 class="tip-title">Fresh + Frozen Combo</h3><p class="tip-text">Combining fresh mango cubes with frozen gives you fresh fruit's aromatic intensity plus the frozen mango's structural contribution. Freeze your fresh cubes first. <em>(Vitamix)</em></p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variations -->
+  <div id="m-variations" style="background:#fff">
+    <div class="m-section">
+      <p class="m-sec-label">Make it your own</p>
+      <h2 class="m-sec-title">Variations</h2>
+      <div class="var-grid">
+        <div class="var-card reveal"><span class="var-emoji">🫐</span><div class="var-name">Raspberry Mango</div><div class="var-desc">Sub 1 cup frozen mango with frozen raspberries. Stunning color, tangy contrast.</div></div>
+        <div class="var-card reveal"><span class="var-emoji">🥥</span><div class="var-name">Coconut Mango</div><div class="var-desc">Replace ⅓ of mango with full-fat coconut milk or cream. Richer, creamier, tropical.</div></div>
+        <div class="var-card reveal"><span class="var-emoji">🍍</span><div class="var-name">Pineapple Mango</div><div class="var-desc">50/50 pineapple juice and mango pulp. Bright, refreshing, tropical.</div></div>
+        <div class="var-card reveal"><span class="var-emoji">🍓</span><div class="var-name">Strawberry Mango</div><div class="var-desc">Replace ⅓ with frozen strawberries. Swirl two colors for a stunning effect.</div></div>
+        <div class="var-card reveal"><span class="var-emoji">🌶️</span><div class="var-name">Mangonada Style</div><div class="var-desc">Layer with chamoy sauce and top with Tajín. Salty-sour-spicy contrast is extraordinary.</div></div>
+        <div class="var-card reveal"><span class="var-emoji">🫚</span><div class="var-name">Passion Fruit Mango</div><div class="var-desc">Replace 25–33% with passion fruit pulp. Use 1:2 ratio so it doesn't overwhelm.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Methods -->
+  <div id="m-methods" class="m-methods-bg">
+    <div class="m-section">
+      <p class="m-sec-label">Choose your tool</p>
+      <h2 class="m-sec-title">4 Ways to Make It</h2>
+      <div class="method-grid">
+        <div class="method-card reveal"><span class="method-icon">🔧</span><div class="method-name">Food Processor</div><div class="method-desc">Consensus best method. Processes thick frozen mango without extra liquid. Add in batches while running. Scrape sides often.</div></div>
+        <div class="method-card reveal"><span class="method-icon">⚡</span><div class="method-name">High-Speed Blender</div><div class="method-desc">Start low, ramp to high, use tamper. Listen for motor pitch change and four mounds — stop immediately. May need a splash of coconut milk.</div></div>
+        <div class="method-card reveal"><span class="method-icon">🍦</span><div class="method-name">Ice Cream Maker</div><div class="method-desc">Puree thawed mango + sugar first. Chill in fridge. Churn ~30 min. Transfer and freeze. Freeze bowl 24 hrs first.</div></div>
+        <div class="method-card reveal"><span class="method-icon">🤖</span><div class="method-name">Ninja Creami</div><div class="method-desc">Blend puree, freeze 24 hours in canister. Process on Sorbet setting. Multiple passes = smoother result.</div></div>
+        <div class="method-card reveal"><span class="method-icon">🍴</span><div class="method-name">Granita (By Hand)</div><div class="method-desc">Pour puree into shallow dish. Scrape with fork every 30 min for 4 hours. Coarser but delicious.</div></div>
+        <div class="method-card reveal"><span class="method-icon">🧊</span><div class="method-name">Ice Cube Tray</div><div class="method-desc">Pour base into ice cube trays and freeze. Blend the cubes later — best no-churn method for long-term storage. <em>(The Flavor Bender)</em></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sources -->
+  <div id="m-sources" class="m-section-dark">
+    <div class="m-section">
+      <p class="m-sec-label">Credit where it's due</p>
+      <h2 class="m-sec-title">What Each Source Contributed</h2>
+      <div class="source-grid">
+        <div class="source-card reveal"><div class="source-name">🍋 Minimalist Baker</div><div class="source-contrib"><strong>Maple syrup as sweetener</strong>, food processor as preferred tool, add frozen mango in batches while running for smoother blending.</div></div>
+        <div class="source-card reveal"><div class="source-name">🍍 Perry's Plate</div><div class="source-contrib"><strong>Pineapple juice brightener</strong> — adds depth without tasting like pineapple. Freeze storage container beforehand. Coconut or almond milk as liquid base.</div></div>
+        <div class="source-card reveal"><div class="source-name">👩‍🍳 Catherine Zhang</div><div class="source-contrib">Detailed technique for achieving <strong>smooth, creamy texture</strong> and working with fresh mango. Contributed to consensus on method and proportions.</div></div>
+        <div class="source-card reveal"><div class="source-name">🌿 Gimme Some Oven</div><div class="source-contrib"><strong>Lime zest</strong> for aromatic top notes. <strong>Fresh ginger</strong> for complexity. Coconut milk for body. Break apart frozen clumps before blending.</div></div>
+        <div class="source-card reveal"><div class="source-name">🔬 The Flavor Bender</div><div class="source-contrib"><strong>Sugar science</strong> (25–30% minimum). Aquafaba for airiness. Ice cube tray method. Best mango variety guide. How to ripen mangoes.</div></div>
+        <div class="source-card reveal"><div class="source-name">⚡ Vitamix</div><div class="source-contrib"><strong>Fresh + frozen mango combo.</strong> Tamper technique. "Four mounds + motor pitch change" stop cue. Serve immediately for peak texture.</div></div>
+        <div class="source-card reveal"><div class="source-name">🫐 Through the Fibro Fog</div><div class="source-contrib">Proved <strong>2 ingredients is enough</strong>. Coconut milk for creaminess. <strong>Vanilla bean powder</strong> as a standout reader tip.</div></div>
+        <div class="source-card reveal"><div class="source-name">🍦 Baking a Moment</div><div class="source-contrib">Full spectrum of <strong>equipment methods</strong>: ice cream maker, Ninja Creami, by-hand granita. Chili powder and Tajín as finishing garnishes.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nutrition -->
+  <div id="m-nutrition">
+    <div class="m-section">
+      <p class="m-sec-label">Per serving (⅙ batch)</p>
+      <h2 class="m-sec-title">Nutrition</h2>
+      <div class="nutrition-grid">
+        <div class="nutrition-cell"><div class="nutrition-val">~155</div><div class="nutrition-label">Calories</div></div>
+        <div class="nutrition-cell"><div class="nutrition-val">38g</div><div class="nutrition-label">Carbs</div></div>
+        <div class="nutrition-cell"><div class="nutrition-val">34g</div><div class="nutrition-label">Sugars</div></div>
+        <div class="nutrition-cell"><div class="nutrition-val">2g</div><div class="nutrition-label">Fiber</div></div>
+        <div class="nutrition-cell"><div class="nutrition-val">1g</div><div class="nutrition-label">Protein</div></div>
+        <div class="nutrition-cell"><div class="nutrition-val">0.5g</div><div class="nutrition-label">Fat</div></div>
+        <div class="nutrition-cell"><div class="nutrition-val">55mg</div><div class="nutrition-label">Vitamin C</div></div>
+        <div class="nutrition-cell"><div class="nutrition-val">1338IU</div><div class="nutrition-label">Vitamin A</div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="recipe-footer">
+    <p><strong>The Perfect Mango Sorbet</strong> · Compiled from 8 sources</p>
+    <p>Minimalist Baker · Perry's Plate · Catherine Zhang · Gimme Some Oven · The Flavor Bender · Vitamix · Through the Fibro Fog · Baking a Moment</p>
+  </footer>
+
+</div><!-- /mango -->
+
+
+<!-- ╔═══════════════════════════════════════════════════╗
+     ║  WATERMELON SORBET PAGE                           ║
+     ╚═══════════════════════════════════════════════════╝ -->
+<div id="watermelon" class="page">
+
+  <button class="back-btn" onclick="goTo('home')">← Back</button>
+
+  <!-- Hero -->
+  <section class="w-hero">
+    <div>
+      <p class="w-eyebrow">Compiled from 7 sources</p>
+      <h1>The Perfect<em>Watermelon Sorbet</em></h1>
+      <p class="w-desc">Every tip, technique, and insight from seven recipes distilled into one definitive version. Silky, vibrantly fresh, and scoopable — no ice cream maker required.</p>
+      <div class="w-badges">
+        <span class="w-badge">No Ice Cream Maker</span>
+        <span class="w-badge">Vegan</span>
+        <span class="w-badge">5 min active</span>
+        <span class="w-badge">6 servings</span>
+      </div>
+    </div>
+    <div><div class="w-orb">🍉</div></div>
+    <div class="w-stats">
+      <div><span class="w-stat-num">5'</span><span class="w-stat-label">Active Time</span></div>
+      <div class="w-stat-divider"></div>
+      <div><span class="w-stat-num">4h</span><span class="w-stat-label">Total Time</span></div>
+      <div class="w-stat-divider"></div>
+      <div><span class="w-stat-num">6</span><span class="w-stat-label">Servings</span></div>
+      <div class="w-stat-divider"></div>
+      <div><span class="w-stat-num">7</span><span class="w-stat-label">Sources</span></div>
+    </div>
+  </section>
+
+  <!-- Sources strip -->
+  <div class="sources-strip">
+    <span class="sources-strip-label">Based on</span>
+    <span class="source-pill w-pill">Veggie Fun Kitchen</span>
+    <span class="source-pill w-pill">The Kitchn</span>
+    <span class="source-pill w-pill">Things We'll Make</span>
+    <span class="source-pill w-pill">G-Free Foodie</span>
+    <span class="source-pill w-pill">Healthy Seasonal Recipes</span>
+    <span class="source-pill w-pill">Jennifer Meyering</span>
+    <span class="source-pill w-pill">A Sweet Pea Chef</span>
+  </div>
+
+  <div class="w-wave"></div>
+
+  <!-- Nav -->
+  <nav class="w-sticky-nav">
+    <a class="w-nav-link" href="#w-ingredients">Ingredients</a>
+    <a class="w-nav-link" href="#w-steps">Method</a>
+    <a class="w-nav-link" href="#w-tips">Pro Tips</a>
+    <a class="w-nav-link" href="#w-variations">Variations</a>
+    <a class="w-nav-link" href="#w-methods">Equipment</a>
+    <a class="w-nav-link" href="#w-sources">Sources</a>
+    <a class="w-nav-link" href="#w-nutrition">Nutrition</a>
+  </nav>
+
+  <!-- Ingredients -->
+  <div id="w-ingredients">
+    <div class="w-section">
+      <p class="w-sec-label">What you need</p>
+      <h2 class="w-sec-title">Ingredients</h2>
+      <div class="serving-row">
+        <span class="serving-label" style="color:rgba(21,0,8,0.4)">Servings</span>
+        <div class="serving-ctrl" style="background:#fff;border:1px solid rgba(220,30,60,0.2)">
+          <button class="serving-btn" style="background:#DC1E3C;color:#fff" onclick="changeServings('w', -1)">−</button>
+          <span class="serving-count" id="w-serving-count" style="color:#150008">6</span>
+          <button class="serving-btn" style="background:#DC1E3C;color:#fff" onclick="changeServings('w', 1)">+</button>
+        </div>
+      </div>
+      <div class="ing-grid" id="w-ing-grid"></div>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <div id="w-steps" style="background:#fff">
+    <div class="w-section">
+      <p class="w-sec-label">How to make it</p>
+      <h2 class="w-sec-title">Step-by-Step Method</h2>
+      <div class="w-steps-list">
+        <div class="w-step reveal">
+          <div class="w-step-num">1</div>
+          <div class="w-step-body">
+            <h3 class="w-step-title">🍉 Choose & Prep the Watermelon</h3>
+            <p class="w-step-text">Watermelon quality makes or breaks this. Choose one that feels heavy for its size and has a hollow thump. A <strong>creamy yellow ground spot on the underside</strong> is the best ripeness indicator (Jennifer Meyering). Avoid overripe or mealy melons. Remove all seeds — even one missed seed will blend into gritty bits. Cube into ¾-inch pieces.</p>
+          </div>
+        </div>
+        <div class="w-step reveal">
+          <div class="w-step-num">2</div>
+          <div class="w-step-body">
+            <h3 class="w-step-title">❄️ Freeze the Watermelon (4+ hours)</h3>
+            <p class="w-step-text">Line a rimmed baking sheet with parchment. Spread watermelon in a <strong>single, even layer</strong> — no overlapping. Freeze until completely solid, at least 4 hours or overnight. The parchment prevents sticking and the single layer prevents one solid frozen block. Pre-chill your storage container at the same time.</p>
+            <span class="timer-badge w-timer" onclick="startTimer(14400, this)">⏱ Start 4-hr freeze timer</span>
+            <div class="w-step-tip"><strong>The Kitchn + Things We'll Make:</strong> Single-layer freezing is non-negotiable. One frozen block is impossible to break up without a hammer.</div>
+          </div>
+        </div>
+        <div class="w-step reveal">
+          <div class="w-step-num">3</div>
+          <div class="w-step-body">
+            <h3 class="w-step-title">🍯 Make the Simple Syrup</h3>
+            <p class="w-step-text">Combine sugar and water in a small saucepan over high heat. Stir until dissolved, then bring to a gentle boil for 2–3 minutes (Veggie Fun Kitchen). Remove from heat and stir in lime juice, lime zest, and salt. <strong>Use immediately — hot syrup poured onto frozen watermelon blends more evenly</strong> than cold liquid. (Healthy Seasonal Recipes)</p>
+            <div class="w-step-tip"><strong>Why simple syrup vs plain sugar:</strong> Dissolved sugar distributes more evenly, preventing gritty undissolved pockets in the final sorbet.</div>
+          </div>
+        </div>
+        <div class="w-step reveal">
+          <div class="w-step-num">4</div>
+          <div class="w-step-body">
+            <h3 class="w-step-title">⚙️ Blend the Sorbet</h3>
+            <p class="w-step-text">Add frozen watermelon to food processor. Pour hot simple syrup over it. Process, scraping sides every 30–45 seconds. Stages: <strong>icy chunks → crumbly → smooth</strong>. Takes 4–7 minutes total. <strong>Add any extra water incrementally — start with just drops</strong> if the machine is struggling. Too much liquid at once causes overflow and a slushy result, not sorbet. (Things We'll Make)</p>
+            <div class="w-step-tip"><strong>Watermelon has ~92% water content</strong> — it freezes harder and icier than mango. The simple syrup and correct sugar ratio are your best defenses against iciness.</div>
+          </div>
+        </div>
+        <div class="w-step reveal">
+          <div class="w-step-num">5</div>
+          <div class="w-step-body">
+            <h3 class="w-step-title">👅 Taste & Calibrate</h3>
+            <p class="w-step-text">The base should taste slightly sweeter and more acidic than you'd ideally want — cold mutes both. Add maple syrup or honey if the watermelon wasn't very sweet. If your watermelon was exceptional and ripe, you may need almost no extra sweetener at all — a great melon with good simple syrup can stand entirely on its own. (Reader consensus)</p>
+          </div>
+        </div>
+        <div class="w-step reveal">
+          <div class="w-step-num">6</div>
+          <div class="w-step-body">
+            <h3 class="w-step-title">🍦 Serve or Freeze</h3>
+            <p class="w-step-text">Eat straight from the food processor for beautiful soft-serve. For scoopable sorbet: transfer to your pre-chilled container or loaf pan. <strong>Press parchment directly onto the surface</strong> — this prevents ice crystals forming on top. If using a loaf pan, wrap the entire pan in plastic wrap for extra protection. (The Kitchn)</p>
+          </div>
+        </div>
+        <div class="w-step reveal">
+          <div class="w-step-num">7</div>
+          <div class="w-step-body">
+            <h3 class="w-step-title">🕐 Freeze Until Set</h3>
+            <p class="w-step-text">2–3 hours for soft-scoop, 4+ hours for a firm set.</p>
+            <span class="timer-badge w-timer" onclick="startTimer(7200, this)">⏱ Start 2-hr timer</span>
+            <div class="w-step-tip"><strong>Adult version:</strong> Add 1–2 tbsp vodka or white rum to the base before freezing. Alcohol lowers the freezing point for a looser, more scoopable texture. (Things We'll Make)</div>
+          </div>
+        </div>
+        <div class="w-step reveal">
+          <div class="w-step-num">8</div>
+          <div class="w-step-body">
+            <h3 class="w-step-title">🍽️ Scoop & Serve</h3>
+            <p class="w-step-text">Let sit at room temperature <strong>5–10 minutes</strong> before scooping — watermelon freezes harder than mango due to its high water content, so this step matters more here. Serve in chilled bowls. Garnish with fresh mint, lime wedge, or Tajín. <strong>Keeps up to 2 weeks.</strong></p>
+            <div class="w-step-tip"><strong>Prosecco float (Healthy Seasonal Recipes):</strong> Scoop into champagne flutes and top with sparkling wine or prosecco for a stunning brunch treat.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips -->
+  <div id="w-tips" class="w-section-alt">
+    <div class="w-section">
+      <p class="w-sec-label">Expert knowledge</p>
+      <h2 class="w-sec-title">Pro Tips from All 7 Sources</h2>
+      <div class="tips-grid">
+        <div class="w-tip-card tip-card reveal"><span class="tip-emoji">💧</span><h3 class="tip-title">The Water Content Problem</h3><p class="tip-text">Watermelon is ~92% water — it freezes far harder than mango. Solutions: proper simple syrup (not just granulated sugar), enough sweetener (25%+ by weight), parchment on the surface, and thawing 5–10 min before scooping.</p></div>
+        <div class="w-tip-card tip-card reveal"><span class="tip-emoji">🌡️</span><h3 class="tip-title">Hot Syrup on Frozen Fruit</h3><p class="tip-text">Pouring hot simple syrup directly onto frozen watermelon helps it process more evenly and completely than adding cold liquid. Don't let the syrup cool first — use it immediately. <em>(Healthy Seasonal Recipes)</em></p></div>
+        <div class="w-tip-card tip-card reveal"><span class="tip-emoji">💧</span><h3 class="tip-title">Incremental Liquid Addition</h3><p class="tip-text">Add any extra water in drops, not splashes. Too much liquid too fast will fly out of the food processor and you'll end up with a slushy. Build up slowly and let the machine work. <em>(Things We'll Make)</em></p></div>
+        <div class="w-tip-card tip-card reveal"><span class="tip-emoji">🍬</span><h3 class="tip-title">The Condensed Milk Option</h3><p class="tip-text">Replacing the simple syrup with one can of sweetened condensed milk (Jennifer Meyering method) gives a dramatically creamier, denser result — essentially a sherbet. Not vegan, but the creamiest non-dairy-free option available.</p></div>
+        <div class="w-tip-card tip-card reveal"><span class="tip-emoji">🌿</span><h3 class="tip-title">Infused Simple Syrup</h3><p class="tip-text">Add 8–10 fresh mint leaves or fresh basil to the syrup. Steep 1 hour off heat, strain, then briefly reheat before using. Mint-watermelon is a revelatory combination. Ginger syrup also works beautifully. <em>(Healthy Seasonal Recipes)</em></p></div>
+        <div class="w-tip-card tip-card reveal"><span class="tip-emoji">🧊</span><h3 class="tip-title">Pre-Chill Everything</h3><p class="tip-text">Chill your storage container before you start. The faster the sorbet re-freezes after blending, the smaller the ice crystals and the smoother the final texture. This was noted by multiple sources as a game-changer. <em>(Multiple sources)</em></p></div>
+        <div class="w-tip-card tip-card reveal"><span class="tip-emoji">🍷</span><h3 class="tip-title">The Prosecco Float</h3><p class="tip-text">This sorbet doubles as a component — scoop into champagne flutes and top with prosecco or sparkling wine. Instantly becomes a grown-up brunch showstopper. Also works in plain soda water. <em>(Healthy Seasonal Recipes)</em></p></div>
+        <div class="w-tip-card tip-card reveal"><span class="tip-emoji">🌱</span><h3 class="tip-title">No-Sugar Version</h3><p class="tip-text">If your watermelon is exceptional, skip all sweetener and just use lime juice + salt + a drop of water. Won't be as scoopable, but the flavor is pure, intense watermelon. A very ripe melon needs almost nothing else. <em>(Things We'll Make)</em></p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variations -->
+  <div id="w-variations" style="background:#fff">
+    <div class="w-section">
+      <p class="w-sec-label">Make it your own</p>
+      <h2 class="w-sec-title">Variations</h2>
+      <div class="var-grid">
+        <div class="w-var-card var-card reveal"><span class="var-emoji">🌿</span><div class="var-name">Mint Watermelon</div><div class="var-desc">Infuse simple syrup with 8–10 mint leaves 1 hr, then strain + reheat. A classic pair.</div></div>
+        <div class="w-var-card var-card reveal"><span class="var-emoji">🌱</span><div class="var-name">Basil Watermelon</div><div class="var-desc">Same as mint infusion with fresh basil. Floral, unexpected, and sophisticated.</div></div>
+        <div class="w-var-card var-card reveal"><span class="var-emoji">🫚</span><div class="var-name">Ginger Watermelon</div><div class="var-desc">Simmer ½ inch ginger in syrup 5 min, strain. Warm spice contrast against cool fruit.</div></div>
+        <div class="w-var-card var-card reveal"><span class="var-emoji">🍋</span><div class="var-name">Lemon Version</div><div class="var-desc">Swap lime for lemon juice. Brighter, more classic sorbet flavor.</div></div>
+        <div class="w-var-card var-card reveal"><span class="var-emoji">🥂</span><div class="var-name">Prosecco Float</div><div class="var-desc">Scoop into champagne flutes, top with chilled prosecco. Instant brunch showstopper.</div></div>
+        <div class="w-var-card var-card reveal"><span class="var-emoji">🌶️</span><div class="var-name">Tajín Finish</div><div class="var-desc">Top with Tajín or chili-lime salt. Sweet, cold, spicy — a Mexican-inspired classic.</div></div>
+        <div class="w-var-card var-card reveal"><span class="var-emoji">🥥</span><div class="var-name">Sherbet Style</div><div class="var-desc">Add a splash of heavy cream or coconut milk while blending for a creamier, richer result.</div></div>
+        <div class="w-var-card var-card reveal"><span class="var-emoji">🍸</span><div class="var-name">Vodka Slushie</div><div class="var-desc">Add 1–2 tbsp vodka or white rum before freezing. Lower freezing point = scoopable + boozy.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Methods -->
+  <div id="w-methods" class="w-methods-bg">
+    <div class="w-section">
+      <p class="w-sec-label">Choose your tool</p>
+      <h2 class="w-sec-title">4 Ways to Make It</h2>
+      <div class="method-grid">
+        <div class="w-method-card method-card reveal"><span class="method-icon">🔧</span><div class="method-name">Food Processor</div><div class="method-desc">Universally recommended. Wide bowl handles frozen chunks without extra liquid. Add incrementally. Scrape often. Takes 4–7 min total.</div></div>
+        <div class="w-method-card method-card reveal"><span class="method-icon">⚡</span><div class="method-name">High-Speed Blender</div><div class="method-desc">Vitamix or similar. Add a splash more liquid to get it moving. Blend in pulses. Don't over-blend — watermelon melts fast.</div></div>
+        <div class="w-method-card method-card reveal"><span class="method-icon">🍦</span><div class="method-name">Ice Cream Maker</div><div class="method-desc">Blend watermelon + simple syrup into a puree. Chill in fridge first, then churn ~1 hour. Chill the bowl 24 hrs beforehand. (Veggie Fun Kitchen)</div></div>
+        <div class="w-method-card method-card reveal"><span class="method-icon">🍴</span><div class="method-name">Granita (No Machine)</div><div class="method-desc">Pour puree into a shallow dish. Freeze and scrape with a fork every 30 min for 3–4 hours. Coarser but deeply refreshing. Serve in chilled glasses.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sources -->
+  <div id="w-sources" class="w-section-dark">
+    <div class="w-section">
+      <p class="w-sec-label">Credit where it's due</p>
+      <h2 class="w-sec-title">What Each Source Contributed</h2>
+      <div class="source-grid">
+        <div class="source-card reveal"><div class="source-name">🍉 Veggie Fun Kitchen</div><div class="source-contrib"><strong>Simple syrup method</strong> (boil 3 min for best texture). Key insight: can't skimp on sugar or it freezes icy. Ice cream maker method. Chill before churning.</div></div>
+        <div class="source-card reveal"><div class="source-name">🔪 The Kitchn</div><div class="source-contrib"><strong>Freeze on parchment, single layer.</strong> Lime + salt combo. Sweetener flexibility. Press parchment onto sorbet surface. Wrap loaf pan in plastic wrap.</div></div>
+        <div class="source-card reveal"><div class="source-name">⚗️ Things We'll Make</div><div class="source-contrib"><strong>Incremental liquid addition</strong> (start with drops to avoid overflow). Food processor strongly preferred. Gin/vodka for slushy variation. No-sugar option with ripe melon.</div></div>
+        <div class="source-card reveal"><div class="source-name">🥝 G-Free Foodie</div><div class="source-contrib"><strong>Water as blending helper.</strong> Maple syrup as optional sweetener. Simplest proof-of-concept: frozen watermelon + lime + water alone can be extraordinary.</div></div>
+        <div class="source-card reveal"><div class="source-name">🌿 Healthy Seasonal Recipes</div><div class="source-contrib"><strong>Hot syrup onto frozen fruit</strong> blends better than cold. Infused simple syrup (mint, basil, ginger). <strong>Prosecco float idea.</strong> Cream splash for sherbet.</div></div>
+        <div class="source-card reveal"><div class="source-name">🍬 Jennifer Meyering</div><div class="source-contrib"><strong>Sweetened condensed milk</strong> for a creamier, denser sherbet-style result. ¼ tsp salt as standard. Ripeness tip: yellow ground spot = peak ripeness.</div></div>
+        <div class="source-card reveal"><div class="source-name">🍑 A Sweet Pea Chef</div><div class="source-contrib">Contributed to the overall consensus on technique, proportions, and the clean lime-forward flavor profile that appears across all sources.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nutrition -->
+  <div id="w-nutrition">
+    <div class="w-section">
+      <p class="w-sec-label">Per serving (⅙ batch)</p>
+      <h2 class="w-sec-title">Nutrition</h2>
+      <div class="w-nutrition-grid">
+        <div class="w-nutrition-cell"><div class="w-nutrition-val">~80</div><div class="w-nutrition-label">Calories</div></div>
+        <div class="w-nutrition-cell"><div class="w-nutrition-val">20g</div><div class="w-nutrition-label">Carbs</div></div>
+        <div class="w-nutrition-cell"><div class="w-nutrition-val">18g</div><div class="w-nutrition-label">Sugars</div></div>
+        <div class="w-nutrition-cell"><div class="w-nutrition-val">0.5g</div><div class="w-nutrition-label">Fiber</div></div>
+        <div class="w-nutrition-cell"><div class="w-nutrition-val">1g</div><div class="w-nutrition-label">Protein</div></div>
+        <div class="w-nutrition-cell"><div class="w-nutrition-val">0g</div><div class="w-nutrition-label">Fat</div></div>
+        <div class="w-nutrition-cell"><div class="w-nutrition-val">8mg</div><div class="w-nutrition-label">Vitamin C</div></div>
+        <div class="w-nutrition-cell"><div class="w-nutrition-val">432IU</div><div class="w-nutrition-label">Vitamin A</div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="recipe-footer">
+    <p><strong>The Perfect Watermelon Sorbet</strong> · Compiled from 7 sources</p>
+    <p>Veggie Fun Kitchen · The Kitchn · Things We'll Make · G-Free Foodie · Healthy Seasonal Recipes · Jennifer Meyering · A Sweet Pea Chef</p>
+  </footer>
+
+</div><!-- /watermelon -->
+
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  PAGE NAVIGATION
+// ═══════════════════════════════════════════════════════
+function goTo(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+  setTimeout(initReveal, 100);
+}
+
+// ═══════════════════════════════════════════════════════
+//  INGREDIENT DATA
+// ═══════════════════════════════════════════════════════
+const mangoIngs = [
+  { emoji:'🥭', amount:4, unit:'cups', name:'frozen mango chunks', note:'About two 10-oz bags', source:'Consensus' },
+  { emoji:'🍑', amount:1, unit:'cup', name:'fresh mango, cubed & frozen', note:'Freeze 4+ hrs on parchment', source:'Vitamix' },
+  { emoji:'🍬', amount:3, unit:'tbsp', name:'granulated sugar', note:'Minimum for scoopability', source:'The Flavor Bender' },
+  { emoji:'🍁', amount:1, unit:'tbsp', name:'maple syrup or honey', note:'Or agave — any liquid sweetener', source:'Minimalist Baker' },
+  { emoji:'🍋', amount:3, unit:'tbsp', name:'fresh lime juice', note:'About 1 large lime', source:'Consensus' },
+  { emoji:'🟢', amount:1, unit:'tsp', name:'lime zest', note:'Adds fragrance juice alone can\'t give', source:'Gimme Some Oven' },
+  { emoji:'🍍', amount:2, unit:'tbsp', name:'unsweetened pineapple juice', note:'Brightens without tasting like pineapple', source:"Perry's Plate" },
+  { emoji:'🫚', amount:1, unit:'tsp', name:'fresh ginger, finely grated', note:'Peeled first', source:'Gimme Some Oven' },
+  { emoji:'🧂', amount:'⅛', unit:'tsp', name:'fine sea salt', note:'Amplifies the mango flavor', source:'Reader consensus' },
+  { emoji:'🥥', amount:3, unit:'tbsp', name:'full-fat coconut milk', note:'Adds body and creaminess', source:'Multiple sources' },
+];
+
+const watermelonIngs = [
+  { emoji:'🍉', amount:6, unit:'cups', name:'seedless watermelon, ¾-inch cubes', note:'About ½ a small watermelon', source:'Consensus' },
+  { emoji:'🍬', amount:3, unit:'tbsp', name:'granulated sugar (for simple syrup)', note:'Can\'t skimp — causes iciness', source:'Veggie Fun Kitchen' },
+  { emoji:'💧', amount:3, unit:'tbsp', name:'water (for simple syrup)', note:'Equal ratio to sugar', source:'Veggie Fun Kitchen' },
+  { emoji:'🍋', amount:2, unit:'tbsp', name:'fresh lime juice', note:'About 1 medium lime', source:'The Kitchn' },
+  { emoji:'🟢', amount:1, unit:'tsp', name:'lime zest', note:'Fragrant top notes', source:'The Kitchn' },
+  { emoji:'🍁', amount:1, unit:'tbsp', name:'maple syrup or honey (optional)', note:'Adjust to watermelon sweetness', source:'G-Free Foodie' },
+  { emoji:'🧂', amount:'¼', unit:'tsp', name:'fine sea salt', note:'Brings out the sweetness', source:'Jennifer Meyering' },
+  { emoji:'💧', amount:2, unit:'tbsp', name:'extra water or coconut water (if needed)', note:'Add in drops to help blend', source:'Things We\'ll Make' },
+];
+
+const servings = { m: 6, w: 6 };
+const BASE = { m: 6, w: 6 };
+
+function fractionStr(val) {
+  if (typeof val === 'string') return val;
+  const fracs = { 0.125:'⅛', 0.25:'¼', 0.333:'⅓', 0.5:'½', 0.667:'⅔', 0.75:'¾' };
+  if (val === Math.floor(val)) return String(val);
+  const whole = Math.floor(val);
+  const frac = val - whole;
+  const match = Object.entries(fracs).find(([k]) => Math.abs(frac - parseFloat(k)) < 0.05);
+  if (match) return whole ? `${whole} ${match[1]}` : match[1];
+  return val.toFixed(1);
+}
+
+function renderIngs(prefix, ings) {
+  const mult = servings[prefix] / BASE[prefix];
+  const cardClass = prefix === 'm' ? 'ing-card' : 'w-ing-card';
+  const iconClass = prefix === 'm' ? 'ing-icon-box' : 'w-ing-icon';
+  const amtClass = prefix === 'm' ? 'ing-amount' : 'w-ing-amount';
+  const nameClass = prefix === 'm' ? 'ing-name' : 'w-ing-name';
+  const noteClass = prefix === 'm' ? 'ing-note' : 'w-ing-note';
+
+  document.getElementById(`${prefix}-ing-grid`).innerHTML = ings.map(ing => `
+    <div class="${cardClass}">
+      <div class="${iconClass}">${ing.emoji}</div>
+      <div style="flex:1">
+        <div class="${amtClass}">${fractionStr(typeof ing.amount === 'number' ? ing.amount * mult : ing.amount)} <span class="${prefix === 'm' ? 'ing-unit' : ''}" style="font-size:0.6em;font-weight:400;opacity:0.6">${ing.unit}</span></div>
+        <div class="${nameClass}">${ing.name}</div>
+        <div class="${noteClass}">${ing.note} · <em>${ing.source}</em></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function changeServings(prefix, delta) {
+  servings[prefix] = Math.max(1, Math.min(24, servings[prefix] + delta));
+  document.getElementById(`${prefix}-serving-count`).textContent = servings[prefix];
+  const ings = prefix === 'm' ? mangoIngs : watermelonIngs;
+  renderIngs(prefix, ings);
+}
+
+renderIngs('m', mangoIngs);
+renderIngs('w', watermelonIngs);
+
+// ═══════════════════════════════════════════════════════
+//  SCROLL REVEAL
+// ═══════════════════════════════════════════════════════
+function initReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+}
+initReveal();
+
+// ═══════════════════════════════════════════════════════
+//  TIMERS
+// ═══════════════════════════════════════════════════════
+function startTimer(seconds, btn) {
+  if (btn.dataset.running) return;
+  btn.dataset.running = 'true';
+  let remaining = seconds;
+  function tick() {
+    const h = Math.floor(remaining / 3600);
+    const m = Math.floor((remaining % 3600) / 60);
+    const s = remaining % 60;
+    if (h > 0) btn.textContent = `⏱ ${h}h ${m}m remaining`;
+    else btn.textContent = `⏱ ${m}:${String(s).padStart(2,'0')} remaining`;
+    if (remaining <= 0) {
+      btn.textContent = '✅ Done!';
+      btn.style.background = 'linear-gradient(135deg, #2D7A2D, #4CAF50)';
+      btn.style.color = '#fff';
+      btn.style.borderColor = 'transparent';
+      delete btn.dataset.running;
+      return;
+    }
+    remaining--;
+    setTimeout(tick, 1000);
+  }
+  tick();
+}
+</script>
+</body>
+</html>
