@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frosted — Homemade Sorbets &amp; Ice Creams</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;0,6..96,900;1,6..96,400&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Mono',monospace;font-weight:300;overflow-x:hidden;background:#08000a}
+
+/* ─ PAGE SYSTEM ─ */
+.page{display:none;min-height:100vh}
+.page.active{display:block}
+
+/* ─ HOME ─ */
+#home{background:#08000a;min-height:100vh;position:relative;overflow:hidden}
+.home-nav{position:relative;z-index:10;padding:1.8rem 5vw;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(200,20,50,.18)}
+.logo{font-family:'Bodoni Moda',serif;font-size:1.75rem;font-weight:900;color:#fff;letter-spacing:-.02em}
+.logo span{color:#DC1E3C}
+.nav-tag{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+.home-hero{position:relative;z-index:5;padding:8vh 5vw 5vh;display:grid;grid-template-columns:1fr 1fr;gap:4vw;align-items:center;min-height:52vh}
+.home-eyebrow{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:#DC1E3C;margin-bottom:1.4rem;display:flex;align-items:center;gap:.75rem}
+.home-eyebrow::before{content:'';display:block;width:26px;height:1px;background:#DC1E3C}
+.home-title{font-family:'Fraunces',serif;font-size:clamp(3rem,7.5vw,7rem);font-weight:900;line-height:.9;color:#fff;letter-spacing:-.03em;margin-bottom:1.4rem}
+.home-title em{font-style:italic;color:#FF4060;display:block}
+.home-sub{font-size:.8rem;line-height:1.85;color:rgba(255,255,255,.38);max-width:360px;margin-bottom:2.2rem}
+.home-stats{display:flex;gap:2rem}
+.hstat-num{font-family:'Bodoni Moda',serif;font-size:1.9rem;font-weight:700;color:#FF4060;line-height:1;display:block}
+.hstat-lbl{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.26);margin-top:.3rem}
+.home-orb{width:min(340px,38vw);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FF8080,#DC1E3C 55%,#6B0010);box-shadow:0 0 110px rgba(220,30,60,.42),inset 0 -40px 80px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;font-size:clamp(4rem,9.5vw,8.5rem);margin:0 auto;animation:float 6s ease-in-out infinite}
+
+/* Recipe grid */
+.recipes-section{position:relative;z-index:5;padding:2rem 5vw 8rem}
+.sec-hdr{display:flex;align-items:baseline;gap:2rem;margin-bottom:2.2rem;padding-bottom:.9rem;border-bottom:1px solid rgba(220,30,60,.14)}
+.sec-hdr h2{font-family:'Fraunces',serif;font-size:clamp(1.3rem,2.8vw,2.2rem);font-weight:700;color:#fff;letter-spacing:-.02em}
+.sec-count{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2)}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:1.4rem}
+
+/* Cards */
+.rcard{position:relative;border-radius:22px;overflow:hidden;cursor:pointer;transition:transform .4s cubic-bezier(.175,.885,.32,1.275);border:1px solid rgba(255,255,255,.06)}
+.rcard:hover{transform:translateY(-8px) scale(1.015)}
+.rcard .cbg{position:absolute;inset:0;transition:transform .6s ease}
+.rcard:hover .cbg{transform:scale(1.06)}
+.rcard .cin{position:relative;z-index:2;padding:2.3rem;min-height:300px;display:flex;flex-direction:column;justify-content:space-between}
+.rcard .ce{font-size:3.6rem;display:block;margin-bottom:1.1rem;filter:drop-shadow(0 8px 20px rgba(0,0,0,.4));transition:transform .4s}
+.rcard:hover .ce{transform:scale(1.15) rotate(-5deg)}
+.rcard .ccat{font-size:.56rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:.35rem}
+.rcard .ctitle{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em;margin-bottom:.45rem}
+.rcard .csub{font-size:.7rem;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:1.2rem}
+.rcard .cbadges{display:flex;flex-wrap:wrap;gap:.38rem;margin-bottom:1.6rem}
+.cbadge{padding:.2rem .6rem;border-radius:100px;font-size:.56rem;letter-spacing:.07em;border:1px solid;font-weight:500}
+.rcard .cfoot{display:flex;align-items:center;justify-content:space-between}
+.cbtn{display:flex;align-items:center;gap:.45rem;padding:.6rem 1.2rem;border-radius:100px;border:none;color:#fff;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;font-weight:500;cursor:pointer;transition:opacity .2s,transform .2s}
+.cbtn:hover{opacity:.88;transform:scale(1.04)}
+.carr{transition:transform .3s,opacity .3s;opacity:.65}
+.rcard:hover .carr{transform:translateX(4px);opacity:1}
+.soon{opacity:.52;cursor:default}.soon:hover{transform:none}
+.soon-lbl{position:absolute;top:1.4rem;right:1.4rem;z-index:5;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);color:rgba(255,255,255,.35);padding:.28rem .75rem;border-radius:100px;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase}
+
+/* Card bg colours */
+.bg-mango{background:linear-gradient(145deg,#1a0800,#4A1800,#8B3500,#FF8C00)}
+.bg-wm{background:linear-gradient(145deg,#100008,#3D0015,#8B0020,#DC1E3C)}
+.bg-lemon{background:linear-gradient(145deg,#0d0d00,#2e2e00,#707000,#C8C800)}
+.bg-straw{background:linear-gradient(145deg,#140008,#500010,#B5002A,#FF2255)}
+.bg-peach{background:linear-gradient(145deg,#1a0800,#5A1E00,#C05010,#FF9060)}
+.bg-soon{background:linear-gradient(145deg,#0a0a0a,#1a1a2e,#16213e)}
+
+/* Marquee */
+.mqstrip{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#DC1E3C;padding:.5rem 0;overflow:hidden;white-space:nowrap}
+.mqinner{display:inline-block;animation:mq 22s linear infinite;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.mqsep{display:inline-block;margin:0 1.6rem;color:rgba(255,255,255,.35)}
+
+/* ─ SHARED RECIPE COMPONENTS ─ */
+.back-btn{position:fixed;top:1.4rem;left:1.4rem;z-index:200;display:flex;align-items:center;gap:.45rem;padding:.5rem 1.05rem;border-radius:100px;border:1px solid;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;cursor:pointer;backdrop-filter:blur(12px);transition:all .25s}
+.back-btn:hover{transform:translateX(-3px)}
+
+/* Hero */
+.rhero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:8rem 8vw 10rem;gap:4vw;position:relative;overflow:hidden}
+.rhero::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.09) 0%,transparent 70%);bottom:-180px;left:-80px;pointer-events:none}
+.r-eyebrow{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:1.3rem;display:flex;align-items:center;gap:.65rem}
+.r-eyebrow::before{content:'';display:inline-block;width:24px;height:1px;background:rgba(255,255,255,.55)}
+.rhero h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.6rem,6vw,5.5rem);line-height:.91;color:#fff;letter-spacing:-.03em;margin-bottom:1.3rem}
+.rhero h1 em{font-style:italic;display:block;font-weight:400;font-size:.77em;color:rgba(255,255,255,.82)}
+.r-desc{font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.82;max-width:400px;margin-bottom:1.8rem}
+.r-badges{display:flex;flex-wrap:wrap;gap:.4rem}
+.rbadge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:.3rem .8rem;border-radius:100px;font-size:.6rem;letter-spacing:.05em}
+.horb{aspect-ratio:1;width:min(340px,37vw);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:clamp(3.5rem,8vw,7rem);margin:0 auto;animation:float 5.5s ease-in-out infinite}
+.rstats{position:absolute;bottom:5.5vh;left:8vw;display:flex;gap:2.8vw}
+.rstat-num{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:700;color:#fff;line-height:1;display:block}
+.rstat-lbl{font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.48)}
+.rstat-div{width:1px;background:rgba(255,255,255,.18);align-self:stretch}
+
+/* Sources strip */
+.srcstrip{padding:1.3rem 5vw;display:flex;align-items:center;gap:1rem;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.srclbl{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;opacity:.32}
+.srcpill{padding:.25rem .78rem;border-radius:100px;font-size:.63rem;white-space:nowrap;font-weight:500;border:1px solid}
+
+/* Wave divider */
+.wave{height:3px;background-size:200%;animation:wave 4s linear infinite}
+
+/* Sticky nav */
+.snav{position:sticky;top:0;z-index:100;backdrop-filter:blur(14px);padding:.7rem 5vw;display:flex;gap:1.6rem;overflow-x:auto;-webkit-overflow-scrolling:touch;border-bottom:1px solid rgba(0,0,0,.06)}
+.snavlink{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:opacity .2s;opacity:.38;font-weight:500}
+.snavlink:hover{opacity:1}
+
+/* Content sections */
+.rsec{max-width:1100px;margin:0 auto;padding:4rem 5vw}
+.slbl{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;margin-bottom:.7rem;display:flex;align-items:center;gap:.65rem}
+.slbl::before{content:'';display:inline-block;width:18px;height:1px}
+.stitle{font-family:'Fraunces',serif;font-size:clamp(1.6rem,3vw,2.5rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:1.2rem}
+
+/* Ingredients */
+.serving-row{display:flex;align-items:center;gap:1.4rem;margin-bottom:1.8rem;flex-wrap:wrap}
+.serv-lbl{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;opacity:.42}
+.serv-ctrl{display:flex;align-items:center;gap:.65rem;border-radius:100px;padding:.3rem .45rem}
+.serv-btn{width:27px;height:27px;border-radius:50%;border:none;font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s;font-weight:500}
+.serv-btn:hover{transform:scale(1.12)}
+.serv-num{font-family:'Bodoni Moda',serif;font-size:1.3rem;font-weight:700;min-width:1.7rem;text-align:center}
+.ing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:.85rem;margin-top:2rem}
+.ingcard{background:#fff;border-radius:15px;padding:1.2rem 1.35rem;display:flex;align-items:flex-start;gap:.85rem;border:1px solid rgba(0,0,0,.07);transition:transform .25s,box-shadow .25s}
+.ingcard:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.ingicon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.ing-amt{font-family:'Bodoni Moda',serif;font-size:1.2rem;font-weight:700;line-height:1}
+.ing-unit{font-size:.58em;font-weight:400;opacity:.55}
+.ing-name{font-size:.78rem;margin-top:.18rem;line-height:1.4}
+.ing-note{font-size:.61rem;margin-top:.18rem;font-style:italic;opacity:.55}
+
+/* Steps */
+.steps{margin-top:2.5rem;position:relative}
+.steps::before{content:'';position:absolute;left:23px;top:23px;bottom:0;width:2px;background:linear-gradient(to bottom,var(--c1,#aaa),transparent)}
+.step{display:grid;grid-template-columns:47px 1fr;gap:1.6rem;margin-bottom:2.6rem}
+.snum{width:47px;height:47px;border-radius:50%;color:#fff;font-family:'Bodoni Moda',serif;font-size:1.05rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;box-shadow:0 4px 18px rgba(0,0,0,.22)}
+.sbody{padding-top:.45rem}
+.steptitle{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;margin-bottom:.5rem;display:flex;align-items:center;gap:.65rem}
+.steptext{font-size:.83rem;line-height:1.88;max-width:680px}
+.steptip{margin-top:.7rem;padding:.65rem .95rem;border-left:3px solid var(--c1,#aaa);border-radius:0 9px 9px 0;font-size:.74rem;line-height:1.62}
+.timer{display:inline-flex;align-items:center;gap:.38rem;padding:.3rem .8rem;border-radius:100px;font-size:.68rem;font-weight:500;margin-top:.68rem;cursor:pointer;transition:all .2s;font-family:'DM Mono',monospace;border:1px solid var(--c1,#aaa);background:rgba(0,0,0,.04);color:var(--c4,#555)}
+.timer:hover{background:linear-gradient(135deg,var(--c2,#bbb),var(--c1,#aaa));color:#fff;border-color:transparent}
+
+/* Tips */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:1.3rem;margin-top:2rem}
+.tipcard{background:#fff;border-radius:18px;padding:1.6rem;border:1px solid rgba(0,0,0,.07);box-shadow:0 2px 14px rgba(0,0,0,.05)}
+.tipemoji{font-size:1.7rem;margin-bottom:.7rem;display:block}
+.tiptitle{font-family:'Fraunces',serif;font-size:.95rem;font-weight:700;margin-bottom:.45rem}
+.tiptext{font-size:.77rem;line-height:1.72;opacity:.7}
+
+/* Variations */
+.var-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(198px,1fr));gap:.85rem;margin-top:1.7rem}
+.varcard{padding:1.05rem 1.2rem;border-radius:13px;border:2px solid rgba(0,0,0,.1);transition:all .25s;cursor:default}
+.varcard:hover{border-color:var(--c1,#aaa);background:var(--c3,#f5f5f5)}
+.varemoji{font-size:1.55rem;display:block;margin-bottom:.45rem}
+.varname{font-family:'Fraunces',serif;font-weight:700;font-size:.88rem;margin-bottom:.3rem}
+.vardesc{font-size:.72rem;line-height:1.5;opacity:.62}
+
+/* Methods */
+.meth-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem;margin-top:2rem}
+.methcard{background:rgba(255,255,255,.16);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.3);border-radius:18px;padding:1.6rem;color:#fff;transition:background .25s}
+.methcard:hover{background:rgba(255,255,255,.25)}
+.methicon{font-size:1.65rem;margin-bottom:.75rem;display:block}
+.methname{font-family:'Fraunces',serif;font-weight:700;font-size:.95rem;margin-bottom:.42rem}
+.methdesc{font-size:.76rem;line-height:1.65;color:rgba(255,255,255,.8)}
+
+/* Sources */
+.src-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-top:2rem}
+.srccard{border-radius:15px;padding:1.3rem;border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.05);transition:all .25s}
+.srccard:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.22)}
+.srcname{font-family:'Fraunces',serif;font-size:.95rem;font-weight:700;margin-bottom:.5rem}
+.srctxt{font-size:.77rem;line-height:1.65;color:rgba(255,255,255,.58)}
+.srctxt strong{color:rgba(255,255,255,.9);font-weight:500}
+
+/* Nutrition */
+.nut-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:1px;border-radius:14px;overflow:hidden;margin-top:1.7rem}
+.nutcell{background:#fff;padding:1.25rem;text-align:center}
+.nutval{font-family:'Bodoni Moda',serif;font-size:1.6rem;font-weight:700;line-height:1}
+.nutlbl{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;margin-top:.32rem;opacity:.55}
+
+/* Footer */
+.rfooter{text-align:center;padding:2.5rem 5vw;font-size:.7rem;line-height:1.82}
+.rfooter strong{font-weight:500}
+
+/* ─ PER-RECIPE COLOUR TOKENS ─ */
+#mango{--c1:#FF8C00;--c2:#FFB347;--c3:#FFF3DC;--c4:#D4600A;--cbg:#FFF8F0;--ctxt:#1A1008;--csoft:#6B4F2A;--cdark:#1A1008}
+#mango .rhero{background:linear-gradient(158deg,#FF6600 0%,#FFB347 42%,#FFF3DC 100%)}
+#mango .horb{background:radial-gradient(circle at 35% 33%,#FFD580,#FF8C00 58%,#C96800);box-shadow:0 40px 90px rgba(190,80,0,.42),inset 0 -30px 60px rgba(0,0,0,.15)}
+#watermelon{--c1:#DC1E3C;--c2:#FF4060;--c3:#FFF0F3;--c4:#A30020;--cbg:#FFF5F7;--ctxt:#150008;--csoft:#5A2030;--cdark:#150008}
+#watermelon .rhero{background:linear-gradient(158deg,#6B0010 0%,#DC1E3C 45%,#FF8090 72%,#FFE0E5 100%)}
+#watermelon .horb{background:radial-gradient(circle at 35% 30%,#FF8090,#DC1E3C 55%,#6B0010);box-shadow:0 40px 90px rgba(160,0,32,.48),inset 0 -30px 60px rgba(0,0,0,.2)}
+#lemon{--c1:#9BB800;--c2:#C8E000;--c3:#F8FFD0;--c4:#5E7000;--cbg:#FAFFF0;--ctxt:#0F1600;--csoft:#3A4A00;--cdark:#0F1600}
+#lemon .rhero{background:linear-gradient(158deg,#3A4A00 0%,#7A9800 40%,#C8E000 68%,#F0FFB0 100%)}
+#lemon .horb{background:radial-gradient(circle at 35% 33%,#F0FF80,#C8E000 55%,#7A9800);box-shadow:0 40px 90px rgba(150,185,0,.44),inset 0 -30px 60px rgba(0,0,0,.1)}
+#strawberry{--c1:#E8003A;--c2:#FF2255;--c3:#FFF0F4;--c4:#A50028;--cbg:#FFF5F7;--ctxt:#160008;--csoft:#650025;--cdark:#160008}
+#strawberry .rhero{background:linear-gradient(158deg,#5A0015 0%,#B5002A 42%,#FF2255 68%,#FFB0C0 100%)}
+#strawberry .horb{background:radial-gradient(circle at 35% 30%,#FF8090,#E8003A 55%,#7A0018);box-shadow:0 40px 90px rgba(185,0,42,.48),inset 0 -30px 60px rgba(0,0,0,.2)}
+#peach{--c1:#F07030;--c2:#FF9060;--c3:#FFF3EC;--c4:#C04810;--cbg:#FFF8F4;--ctxt:#1A0A00;--csoft:#6A3010;--cdark:#1A0A00}
+#peach .rhero{background:linear-gradient(158deg,#5A1E00 0%,#C05010 42%,#F07030 68%,#FFD0B0 100%)}
+#peach .horb{background:radial-gradient(circle at 35% 33%,#FFD0A0,#F07030 55%,#C04810);box-shadow:0 40px 90px rgba(185,75,0,.44),inset 0 -30px 60px rgba(0,0,0,.14)}
+
+/* Automatic theming via CSS vars */
+.rpage-bg{background:var(--cbg);color:var(--ctxt)}
+.rpage-alt{background:var(--c3)}
+.rpage-dark{background:var(--cdark)}
+.rpage-grad{background:linear-gradient(135deg,var(--c4),var(--c1))}
+.slbl{color:var(--c1)}.slbl::before{background:var(--c1)}
+.stitle{color:var(--ctxt)}
+.rpage-dark .slbl{color:var(--c2)}.rpage-dark .slbl::before{background:var(--c2)}
+.rpage-dark .stitle{color:#fff}
+.rpage-grad .slbl{color:rgba(255,255,255,.8)}.rpage-grad .slbl::before{background:rgba(255,255,255,.8)}
+.rpage-grad .stitle{color:#fff}
+.snum{background:linear-gradient(135deg,var(--c2),var(--c1))}
+.steptext{color:var(--csoft)}.steptitle{color:var(--ctxt)}
+.steptip{background:var(--c3);color:var(--csoft)}.steptip strong{color:var(--c4)}
+.ingicon{background:linear-gradient(135deg,var(--c2),var(--c1))}
+.ing-amt{color:var(--c4)}.ing-name{color:var(--ctxt)}.ing-note{color:var(--csoft)}
+.tiptitle{color:var(--ctxt)}.tiptext{color:var(--csoft)}
+.varname{color:var(--ctxt)}
+.nutval{color:var(--c4)}.nutlbl{color:var(--csoft)}
+.wave{background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c1))}
+.snav{background:rgba(250,255,245,.9)}
+.snavlink{color:var(--ctxt)}.snavlink:hover{color:var(--c1)}
+.srcstrip{background:var(--cdark)}
+.srcpill{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--c2)}
+.rfooter{background:var(--cdark);color:rgba(255,255,255,.38)}.rfooter strong{color:var(--c2)}
+.nut-row{background:rgba(0,0,0,.08)}
+.serv-ctrl{background:#fff;border:1px solid rgba(0,0,0,.1)}
+.serv-num{color:var(--ctxt)}
+.serv-btn{background:var(--c1);color:#fff}
+.back-btn{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.12);color:var(--c4)}
+
+/* Animations */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-15px) rotate(2deg)}}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes wave{from{background-position:0%}to{background-position:200%}}
+@keyframes fadein{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+
+/* Responsive */
+@media(max-width:768px){
+  .home-hero,.rhero{grid-template-columns:1fr;text-align:center;padding:6rem 6vw 7rem}
+  .home-eyebrow,.r-eyebrow{justify-content:center}
+  .home-stats,.rstats{position:static;margin-top:1.8rem;justify-content:center;flex-wrap:wrap}
+  .r-badges{justify-content:center}
+  .horb{order:-1;width:min(200px,52vw)}
+  .home-orb{width:min(200px,52vw)}
+  .cards-grid{grid-template-columns:1fr}
+  .steps::before{left:19px}
+  .step{grid-template-columns:40px 1fr;gap:1rem}
+  .snum{width:40px;height:40px;font-size:.9rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="home" class="page active">
+  <nav class="home-nav">
+    <div class="logo">Frost<span>ed</span></div>
+    <div class="nav-tag">Homemade Sorbets &amp; Ice Creams</div>
+  </nav>
+  <section class="home-hero">
+    <div style="animation:fadein .9s ease both">
+      <p class="home-eyebrow">Recipe Collection</p>
+      <h1 class="home-title">Frozen<em>Perfection</em></h1>
+      <p class="home-sub">Every recipe distilled from 6–8 expert sources — the best tips, best techniques, all in one place. No ice cream maker needed.</p>
+      <div class="home-stats">
+        <div><span class="hstat-num">40+</span><span class="hstat-lbl">Sources</span></div>
+        <div><span class="hstat-num">5</span><span class="hstat-lbl">Recipes</span></div>
+        <div><span class="hstat-num">∞</span><span class="hstat-lbl">Variations</span></div>
+      </div>
+    </div>
+    <div style="animation:fadein .9s .18s ease both"><div class="home-orb">🍧</div></div>
+  </section>
+  <section class="recipes-section">
+    <div class="sec-hdr"><h2>Choose a Recipe</h2><span class="sec-count">05 available · more coming</span></div>
+    <div class="cards-grid">
+      <div class="rcard" onclick="goTo('mango')"><div class="cbg bg-mango"></div><div class="cin"><div><span class="ce">🥭</span><div class="ccat">No-Churn Sorbet</div><div class="ctitle">Mango<br>Sorbet</div><div class="csub" style="color:rgba(255,210,140,.68)">Silky, intensely fruity. 8 sources combined.</div><div class="cbadges"><span class="cbadge" style="background:rgba(255,140,0,.18);border-color:rgba(255,140,0,.4);color:#FFB347">5 min active</span><span class="cbadge" style="background:rgba(255,140,0,.18);border-color:rgba(255,140,0,.4);color:#FFB347">No machine</span><span class="cbadge" style="background:rgba(255,140,0,.18);border-color:rgba(255,140,0,.4);color:#FFB347">Vegan</span></div></div><div class="cfoot"><span style="font-size:.58rem;color:rgba(255,180,80,.5)">8 sources</span><button class="cbtn" style="background:linear-gradient(135deg,#FF8C00,#FFB347)">View Recipe <span class="carr">→</span></button></div></div></div>
+      <div class="rcard" onclick="goTo('watermelon')"><div class="cbg bg-wm"></div><div class="cin"><div><span class="ce">🍉</span><div class="ccat">No-Churn Sorbet</div><div class="ctitle">Watermelon<br>Sorbet</div><div class="csub" style="color:rgba(255,175,185,.65)">Vibrant and refreshing. Every ice-crystal trick. 7 sources.</div><div class="cbadges"><span class="cbadge" style="background:rgba(220,30,60,.2);border-color:rgba(220,30,60,.45);color:#FF6080">5 min active</span><span class="cbadge" style="background:rgba(220,30,60,.2);border-color:rgba(220,30,60,.45);color:#FF6080">No machine</span><span class="cbadge" style="background:rgba(220,30,60,.2);border-color:rgba(220,30,60,.45);color:#FF6080">Vegan</span></div></div><div class="cfoot"><span style="font-size:.58rem;color:rgba(255,100,120,.5)">7 sources</span><button class="cbtn" style="background:linear-gradient(135deg,#DC1E3C,#FF4060)">View Recipe <span class="carr">→</span></button></div></div></div>
+      <div class="rcard" onclick="goTo('lemon')"><div class="cbg bg-lemon"></div><div class="cin"><div><span class="ce">🍋</span><div class="ccat">No-Churn Sorbet</div><div class="ctitle">Lemon &amp; Lime<br>Sorbet</div><div class="csub" style="color:rgba(215,255,130,.62)">Bracingly tart, bright and zesty. 7 sources.</div><div class="cbadges"><span class="cbadge" style="background:rgba(180,210,0,.2);border-color:rgba(200,230,0,.45);color:#C8E000">5 min active</span><span class="cbadge" style="background:rgba(180,210,0,.2);border-color:rgba(200,230,0,.45);color:#C8E000">No machine</span><span class="cbadge" style="background:rgba(180,210,0,.2);border-color:rgba(200,230,0,.45);color:#C8E000">Vegan</span></div></div><div class="cfoot"><span style="font-size:.58rem;color:rgba(200,230,0,.5)">7 sources</span><button class="cbtn" style="background:linear-gradient(135deg,#7A9800,#C8E000);color:#0F1600">View Recipe <span class="carr">→</span></button></div></div></div>
+      <div class="rcard" onclick="goTo('strawberry')"><div class="cbg bg-straw"></div><div class="cin"><div><span class="ce">🍓</span><div class="ccat">No-Churn Sorbet</div><div class="ctitle">Strawberry<br>Sorbet</div><div class="csub" style="color:rgba(255,175,185,.65)">Deep, jammy, pure berry. 7 sources.</div><div class="cbadges"><span class="cbadge" style="background:rgba(232,0,58,.2);border-color:rgba(255,34,85,.45);color:#FF6080">5 min active</span><span class="cbadge" style="background:rgba(232,0,58,.2);border-color:rgba(255,34,85,.45);color:#FF6080">No machine</span><span class="cbadge" style="background:rgba(232,0,58,.2);border-color:rgba(255,34,85,.45);color:#FF6080">Vegan</span></div></div><div class="cfoot"><span style="font-size:.58rem;color:rgba(255,100,130,.5)">7 sources</span><button class="cbtn" style="background:linear-gradient(135deg,#B5002A,#FF2255)">View Recipe <span class="carr">→</span></button></div></div></div>
+      <div class="rcard" onclick="goTo('peach')"><div class="cbg bg-peach"></div><div class="cin"><div><span class="ce">🍑</span><div class="ccat">No-Churn Sorbet</div><div class="ctitle">Peach<br>Sorbet</div><div class="csub" style="color:rgba(255,215,175,.65)">Summer in a bowl. Includes the brown sugar bourbon version. 7 sources.</div><div class="cbadges"><span class="cbadge" style="background:rgba(240,112,48,.2);border-color:rgba(255,144,96,.45);color:#FF9060">5 min active</span><span class="cbadge" style="background:rgba(240,112,48,.2);border-color:rgba(255,144,96,.45);color:#FF9060">No machine</span><span class="cbadge" style="background:rgba(240,112,48,.2);border-color:rgba(255,144,96,.45);color:#FF9060">Vegan</span></div></div><div class="cfoot"><span style="font-size:.58rem;color:rgba(255,160,100,.5)">7 sources</span><button class="cbtn" style="background:linear-gradient(135deg,#C04810,#F07030)">View Recipe <span class="carr">→</span></button></div></div></div>
+      <div class="rcard soon"><div class="cbg bg-soon"></div><span class="soon-lbl">Coming Soon</span><div class="cin"><div><span class="ce" style="filter:grayscale(1) opacity(.3)">🫐</span><div class="ccat" style="opacity:.22">Sorbet</div><div class="ctitle" style="opacity:.2">Blueberry<br>Sorbet</div><div class="csub" style="opacity:.18">Intensely purple, tart, unexpected.</div></div><div class="cfoot"><span style="opacity:.18;font-size:.58rem">In development</span><button class="cbtn" style="background:rgba(255,255,255,.07);cursor:not-allowed">Coming Soon</button></div></div></div>
+    </div>
+  </section>
+  <div class="mqstrip"><span class="mqinner">🥭 Mango Sorbet <span class="mqsep">✦</span> 🍉 Watermelon Sorbet <span class="mqsep">✦</span> 🍋 Lemon &amp; Lime Sorbet <span class="mqsep">✦</span> 🍓 Strawberry Sorbet <span class="mqsep">✦</span> 🍑 Peach Sorbet <span class="mqsep">✦</span> 🫐 Blueberry Sorbet <span class="mqsep">✦</span> 🥥 Coconut Ice Cream <span class="mqsep">✦</span> 🍍 Pineapple Sorbet <span class="mqsep">✦</span> 🥭 Mango Sorbet <span class="mqsep">✦</span> 🍉 Watermelon Sorbet <span class="mqsep">✦</span> 🍋 Lemon &amp; Lime Sorbet <span class="mqsep">✦</span> 🍓 Strawberry Sorbet <span class="mqsep">✦</span> 🍑 Peach Sorbet <span class="mqsep">✦</span> 🫐 Blueberry Sorbet <span class="mqsep">✦</span> 🥥 Coconut Ice Cream <span class="mqsep">✦</span> 🍍 Pineapple Sorbet <span class="mqsep">✦</span></span></div>
+</div>
+
+<!-- ══════════ MANGO ══════════ -->
+<div id="mango" class="page">
+  <button class="back-btn" onclick="goTo('home')">← All Recipes</button>
+  <section class="rhero"><div style="animation:fadein .9s ease both"><p class="r-eyebrow">Compiled from 8 sources</p><h1>The Perfect<em>Mango Sorbet</em></h1><p class="r-desc">Every tip and technique from eight beloved recipes — silky, no-churn, and deeply tropical.</p><div class="r-badges"><span class="rbadge">No Machine</span><span class="rbadge">Vegan</span><span class="rbadge">5 min active</span><span class="rbadge">6 servings</span></div></div><div style="animation:fadein .9s .18s ease both"><div class="horb">🥭</div></div><div class="rstats"><div><span class="rstat-num">5'</span><span class="rstat-lbl">Active</span></div><div class="rstat-div"></div><div><span class="rstat-num">3h</span><span class="rstat-lbl">Total</span></div><div class="rstat-div"></div><div><span class="rstat-num">6</span><span class="rstat-lbl">Servings</span></div><div class="rstat-div"></div><div><span class="rstat-num">8</span><span class="rstat-lbl">Sources</span></div></div></section>
+  <div class="srcstrip"><span class="srclbl">Based on</span><span class="srcpill">Minimalist Baker</span><span class="srcpill">Perry's Plate</span><span class="srcpill">Catherine Zhang</span><span class="srcpill">Gimme Some Oven</span><span class="srcpill">The Flavor Bender</span><span class="srcpill">Vitamix</span><span class="srcpill">Through the Fibro Fog</span><span class="srcpill">Baking a Moment</span></div>
+  <div class="wave"></div>
+  <nav class="snav"><a class="snavlink" href="#mi">Ingredients</a><a class="snavlink" href="#ms">Method</a><a class="snavlink" href="#mt">Tips</a><a class="snavlink" href="#mv">Variations</a><a class="snavlink" href="#mm">Equipment</a><a class="snavlink" href="#msrc">Sources</a></nav>
+  <div id="mi" class="rpage-bg"><div class="rsec"><p class="slbl">What you need</p><h2 class="stitle">Ingredients</h2><div class="serving-row"><span class="serv-lbl">Servings</span><div class="serv-ctrl"><button class="serv-btn" onclick="cs('m',-1)">−</button><span class="serv-num" id="m-sc">6</span><button class="serv-btn" onclick="cs('m',1)">+</button></div></div><div class="ing-grid" id="m-ig"></div></div></div>
+  <div id="ms" style="background:#fff"><div class="rsec"><p class="slbl">How to make it</p><h2 class="stitle">Method</h2><div class="steps">
+    <div class="step reveal"><div class="snum">1</div><div class="sbody"><h3 class="steptitle">🥭 Choose Your Mango</h3><p class="steptext"><strong>Ataulfo (honey/champagne) mangoes</strong> are the gold standard — fiberless, intensely sweet, and they cream into the silkiest sorbet. Buy slightly underripe and ripen in a dark paper bag 1–2 days. If using fresh + frozen: cube fresh mango and freeze on parchment 4+ hours first.</p><div class="steptip"><strong>Best varieties:</strong> Ataulfo · Alfonso · Kent · Manila. All fiberless, all extraordinary. <em>(The Flavor Bender)</em></div></div></div>
+    <div class="step reveal"><div class="snum">2</div><div class="sbody"><h3 class="steptitle">❄️ Rest Frozen Mango (5 min)</h3><p class="steptext">Let frozen mango sit at room temperature for 5 minutes. Prevents jamming without watering down the sorbet. Also put your storage container in the freezer now — a pre-chilled container dramatically reduces surface iciness. <em>(Perry's Plate)</em></p><button class="timer" onclick="startTimer(300,this)">⏱ Start 5-min timer</button></div></div>
+    <div class="step reveal"><div class="snum">3</div><div class="sbody"><h3 class="steptitle">⚙️ Blend the Base</h3><p class="steptext">Add mango to food processor in batches while running. Add sugar, maple syrup, lime juice, lime zest, pineapple juice, ginger, salt, and coconut milk. Process continuously scraping every 30–45 sec. Stages: <strong>crumbly → chunky → smooth</strong>. Run 60–90 sec past smooth.</p><div class="steptip"><strong>Vitamix:</strong> Start low, ramp to high, use tamper. Stop at four mounds + motor pitch change — over-blending melts it. <em>(Vitamix)</em></div></div></div>
+    <div class="step reveal"><div class="snum">4</div><div class="sbody"><h3 class="steptitle">👅 Taste &amp; Calibrate</h3><p class="steptext">The base should taste <strong>slightly sweeter than ideal</strong> — freezing dulls sweetness significantly. Minimum 25–30% sugar by weight for scoopability. More lime for brightness, more maple for sweetness. <em>(The Flavor Bender)</em></p></div></div>
+    <div class="step reveal"><div class="snum">5</div><div class="sbody"><h3 class="steptitle">🍦 Freeze &amp; Serve</h3><p class="steptext">Eat immediately for soft-serve — widely considered the best way. For scoopable: transfer to pre-chilled container, press parchment directly on surface, seal. Freeze 2–3h for soft-scoop, 4h+ for firm. Thaw 10–15 min before scooping.</p><button class="timer" onclick="startTimer(7200,this)">⏱ Start 2-hr freeze timer</button><div class="steptip"><strong>Too hard?</strong> Add 1–2 tbsp vodka to the base — lowers freezing point without affecting flavour.</div></div></div>
+  </div></div></div>
+  <div id="mt" class="rpage-alt"><div class="rsec"><p class="slbl">Expert knowledge</p><h2 class="stitle">Pro Tips from All 8 Sources</h2><div class="tips-grid">
+    <div class="tipcard reveal"><span class="tipemoji">🔬</span><h3 class="tiptitle">The Sugar Science</h3><p class="tiptext">Minimum 25–30% sugar by weight for scoopable sorbet. Too little = frozen brick. Sugar, maple syrup, honey, agave all work. <em>(The Flavor Bender)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🫧</span><h3 class="tiptitle">Aquafaba Airiness</h3><p class="tiptext">Whisk ¼ cup aquafaba + 2 tbsp sugar to almost-stiff peaks. Fold into base before freezing for restaurant-quality lightness. <em>(The Flavor Bender)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🍍</span><h3 class="tiptitle">Pineapple Juice Trick</h3><p class="tiptext">2 tbsp unsweetened pineapple juice amplifies mango without tasting like pineapple. Adds acidity and natural sugar. <em>(Perry's Plate)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🌿</span><h3 class="tiptitle">Zest, Not Just Juice</h3><p class="tiptext">Lime zest contains essential oils that juice cannot replicate. Both together give brighter, more complex citrus character. <em>(Gimme Some Oven)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🧊</span><h3 class="tiptitle">Pre-Chill Everything</h3><p class="tiptext">Freeze your storage container before starting. Faster re-freeze = smaller ice crystals = smoother texture. <em>(Perry's Plate)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🥭</span><h3 class="tiptitle">Fresh + Frozen Combo</h3><p class="tiptext">Mix fresh mango (freeze first on parchment) with store-bought frozen for aromatic intensity and structural texture. <em>(Vitamix)</em></p></div>
+  </div></div></div>
+  <div id="mv" style="background:#fff"><div class="rsec"><p class="slbl">Make it your own</p><h2 class="stitle">Variations</h2><div class="var-grid">
+    <div class="varcard reveal"><span class="varemoji">🫐</span><div class="varname">Raspberry Mango</div><div class="vardesc">Sub 1 cup frozen mango with raspberries. Stunning colour, tangy contrast.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🥥</span><div class="varname">Coconut Mango</div><div class="vardesc">Replace ⅓ mango with full-fat coconut milk. Richer and creamier.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🍍</span><div class="varname">Pineapple Mango</div><div class="vardesc">50/50 pineapple juice and mango pulp. Bright, tropical, refreshing.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🌶️</span><div class="varname">Mangonada Style</div><div class="vardesc">Layer with chamoy, top with Tajín. Salty-sour-spicy contrast is extraordinary.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🫚</span><div class="varname">Passion Fruit</div><div class="vardesc">Replace 25% with passion fruit pulp (1:3 ratio so it doesn't overwhelm).</div></div>
+    <div class="varcard reveal"><span class="varemoji">🍓</span><div class="varname">Strawberry Mango</div><div class="vardesc">Replace ⅓ with frozen strawberries. Swirl two colours for a gorgeous effect.</div></div>
+  </div></div></div>
+  <div id="mm" class="rpage-grad"><div class="rsec"><p class="slbl">Choose your tool</p><h2 class="stitle">4 Ways to Make It</h2><div class="meth-grid">
+    <div class="methcard reveal"><span class="methicon">🔧</span><div class="methname">Food Processor</div><div class="methdesc">Best method. Add in batches while running. Scrape often. Run 60–90s past smooth.</div></div>
+    <div class="methcard reveal"><span class="methicon">⚡</span><div class="methname">High-Speed Blender</div><div class="methdesc">Start low, ramp to high, use tamper. Stop at four mounds. May need a splash of coconut milk.</div></div>
+    <div class="methcard reveal"><span class="methicon">🍦</span><div class="methname">Ice Cream Maker</div><div class="methdesc">Puree thawed mango + sugar. Chill. Churn ~30 min. Transfer and freeze. Freeze bowl 24h first.</div></div>
+    <div class="methcard reveal"><span class="methicon">🧊</span><div class="methname">Ice Cube Tray</div><div class="methdesc">Freeze base in ice cube trays. Blend cubes later — best for long-term storage. <em>(The Flavor Bender)</em></div></div>
+  </div></div></div>
+  <div id="msrc" class="rpage-dark"><div class="rsec"><p class="slbl">Credit where it's due</p><h2 class="stitle">What Each Source Contributed</h2><div class="src-grid">
+    <div class="srccard reveal"><div class="srcname">🍋 Minimalist Baker</div><div class="srctxt"><strong>Maple syrup as sweetener.</strong> Food processor preferred. Add mango in batches while running for smoother blending.</div></div>
+    <div class="srccard reveal"><div class="srcname">🍍 Perry's Plate</div><div class="srctxt"><strong>Pineapple juice brightener</strong> — adds depth without tasting like pineapple. Freeze storage container beforehand.</div></div>
+    <div class="srccard reveal"><div class="srcname">👩‍🍳 Catherine Zhang</div><div class="srctxt">Detailed technique for <strong>smooth, creamy texture</strong> and working with fresh mango. Consensus on method and proportions.</div></div>
+    <div class="srccard reveal"><div class="srcname">🌿 Gimme Some Oven</div><div class="srctxt"><strong>Lime zest</strong> for aromatic top notes. <strong>Fresh ginger</strong> for warmth and complexity. Coconut milk for body.</div></div>
+    <div class="srccard reveal"><div class="srcname">🔬 The Flavor Bender</div><div class="srctxt"><strong>Sugar science (25–30% minimum).</strong> Aquafaba for airiness. Ice cube tray method. Best mango variety guide.</div></div>
+    <div class="srccard reveal"><div class="srcname">⚡ Vitamix</div><div class="srctxt"><strong>Fresh + frozen combo.</strong> Tamper technique. Four mounds + motor pitch change stop cue.</div></div>
+    <div class="srccard reveal"><div class="srcname">🫐 Through the Fibro Fog</div><div class="srctxt">Proved <strong>2 ingredients is enough.</strong> Coconut milk for creaminess. <strong>Vanilla bean powder</strong> as a standout tip.</div></div>
+    <div class="srccard reveal"><div class="srcname">🍦 Baking a Moment</div><div class="srctxt">Full spectrum of <strong>equipment methods</strong>: ice cream maker, Ninja Creami, by-hand granita. Tajín as garnish.</div></div>
+  </div></div></div>
+  <div class="rpage-bg"><div class="rsec"><p class="slbl">Per serving (⅙ batch)</p><h2 class="stitle">Nutrition</h2><div class="nut-row"><div class="nutcell"><div class="nutval">~155</div><div class="nutlbl">Calories</div></div><div class="nutcell"><div class="nutval">38g</div><div class="nutlbl">Carbs</div></div><div class="nutcell"><div class="nutval">34g</div><div class="nutlbl">Sugars</div></div><div class="nutcell"><div class="nutval">2g</div><div class="nutlbl">Fiber</div></div><div class="nutcell"><div class="nutval">1g</div><div class="nutlbl">Protein</div></div><div class="nutcell"><div class="nutval">55mg</div><div class="nutlbl">Vitamin C</div></div></div></div></div>
+  <footer class="rfooter"><p><strong>The Perfect Mango Sorbet</strong> · Compiled from 8 sources</p><p>Minimalist Baker · Perry's Plate · Catherine Zhang · Gimme Some Oven · The Flavor Bender · Vitamix · Through the Fibro Fog · Baking a Moment</p></footer>
+</div>
+
+<!-- ══════════ WATERMELON ══════════ -->
+<div id="watermelon" class="page">
+  <button class="back-btn" onclick="goTo('home')">← All Recipes</button>
+  <section class="rhero"><div style="animation:fadein .9s ease both"><p class="r-eyebrow">Compiled from 7 sources</p><h1>The Perfect<em>Watermelon Sorbet</em></h1><p class="r-desc">Vibrant, refreshing, and silky. Every trick for beating watermelon's 92% water content.</p><div class="r-badges"><span class="rbadge">No Machine</span><span class="rbadge">Vegan</span><span class="rbadge">5 min active</span><span class="rbadge">6 servings</span></div></div><div style="animation:fadein .9s .18s ease both"><div class="horb">🍉</div></div><div class="rstats"><div><span class="rstat-num">5'</span><span class="rstat-lbl">Active</span></div><div class="rstat-div"></div><div><span class="rstat-num">4h</span><span class="rstat-lbl">Total</span></div><div class="rstat-div"></div><div><span class="rstat-num">6</span><span class="rstat-lbl">Servings</span></div><div class="rstat-div"></div><div><span class="rstat-num">7</span><span class="rstat-lbl">Sources</span></div></div></section>
+  <div class="srcstrip"><span class="srclbl">Based on</span><span class="srcpill">Veggie Fun Kitchen</span><span class="srcpill">The Kitchn</span><span class="srcpill">Things We'll Make</span><span class="srcpill">G-Free Foodie</span><span class="srcpill">Healthy Seasonal Recipes</span><span class="srcpill">Jennifer Meyering</span><span class="srcpill">A Sweet Pea Chef</span></div>
+  <div class="wave"></div>
+  <nav class="snav"><a class="snavlink" href="#wi">Ingredients</a><a class="snavlink" href="#ws">Method</a><a class="snavlink" href="#wt">Tips</a><a class="snavlink" href="#wv">Variations</a><a class="snavlink" href="#wm">Equipment</a><a class="snavlink" href="#wsrc">Sources</a></nav>
+  <div id="wi" class="rpage-bg"><div class="rsec"><p class="slbl">What you need</p><h2 class="stitle">Ingredients</h2><div class="serving-row"><span class="serv-lbl">Servings</span><div class="serv-ctrl"><button class="serv-btn" onclick="cs('w',-1)">−</button><span class="serv-num" id="w-sc">6</span><button class="serv-btn" onclick="cs('w',1)">+</button></div></div><div class="ing-grid" id="w-ig"></div></div></div>
+  <div id="ws" style="background:#fff"><div class="rsec"><p class="slbl">How to make it</p><h2 class="stitle">Method</h2><div class="steps">
+    <div class="step reveal"><div class="snum">1</div><div class="sbody"><h3 class="steptitle">🍉 Choose the Watermelon</h3><p class="steptext">Heavy for its size, hollow thump, and a <strong>creamy yellow ground spot</strong> — the best ripeness indicator. <em>(Jennifer Meyering)</em> Remove ALL seeds. Cube into ¾-inch pieces.</p></div></div>
+    <div class="step reveal"><div class="snum">2</div><div class="sbody"><h3 class="steptitle">❄️ Freeze Single-Layer (4+ hrs)</h3><p class="steptext">Spread watermelon in a <strong>single layer on parchment</strong> on a baking sheet. Freeze until solid, 4h+. No overlapping — prevents one unfixable frozen block. Pre-chill storage container now. <em>(The Kitchn)</em></p><button class="timer" onclick="startTimer(14400,this)">⏱ Start 4-hr timer</button></div></div>
+    <div class="step reveal"><div class="snum">3</div><div class="sbody"><h3 class="steptitle">🍯 Make &amp; Use Hot Simple Syrup</h3><p class="steptext">Boil sugar + water 2–3 min. Add lime juice, zest, and salt. <strong>Use immediately while hot</strong> — hot syrup on frozen watermelon blends far more evenly than cold. <em>(Healthy Seasonal Recipes)</em></p><div class="steptip"><strong>Infusion upgrade:</strong> Steep 8–10 fresh mint or basil leaves in the warm syrup 1 hour, strain, then briefly reheat. Mint-watermelon is revelatory.</div></div></div>
+    <div class="step reveal"><div class="snum">4</div><div class="sbody"><h3 class="steptitle">⚙️ Blend</h3><p class="steptext">Add frozen watermelon to food processor, pour hot syrup over. Process 4–7 min scraping often. <strong>Add extra water in drops only</strong> — too much at once = overflow and slushy, not sorbet. <em>(Things We'll Make)</em></p><div class="steptip"><strong>Watermelon is ~92% water</strong> — it freezes harder than any other sorbet fruit. Good simple syrup + correct sugar % are your main defences against iciness.</div></div></div>
+    <div class="step reveal"><div class="snum">5</div><div class="sbody"><h3 class="steptitle">🍦 Taste, Then Freeze or Serve</h3><p class="steptext">Should taste slightly too sweet. Transfer to pre-chilled container. Press parchment directly on surface. Wrap loaf pan in plastic wrap for extra protection. Freeze 2–3h soft-scoop, 4h+ firm. Thaw 5–10 min before scooping.</p><button class="timer" onclick="startTimer(7200,this)">⏱ Start 2-hr freeze timer</button><div class="steptip"><strong>Adult twist:</strong> Add 1–2 tbsp vodka before freezing — lowers freezing point for a scoopable, slushy texture. <em>(Things We'll Make)</em></div></div></div>
+  </div></div></div>
+  <div id="wt" class="rpage-alt"><div class="rsec"><p class="slbl">Expert knowledge</p><h2 class="stitle">Pro Tips from All 7 Sources</h2><div class="tips-grid">
+    <div class="tipcard reveal"><span class="tipemoji">💧</span><h3 class="tiptitle">The 92% Water Problem</h3><p class="tiptext">Watermelon freezes harder than any other sorbet. Solutions: proper simple syrup, 25%+ sugar, parchment on surface, and 5–10 min thaw before scooping.</p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🌡️</span><h3 class="tiptitle">Hot Syrup on Frozen Fruit</h3><p class="tiptext">Pour hot simple syrup directly onto frozen watermelon. It blends far more evenly than cold liquid. Don't let it cool first. <em>(Healthy Seasonal Recipes)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">💧</span><h3 class="tiptitle">Incremental Liquid Only</h3><p class="tiptext">Add extra water in drops, not splashes. Too much too fast = overflow and slushy result. Build up slowly. <em>(Things We'll Make)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🍬</span><h3 class="tiptitle">Condensed Milk Option</h3><p class="tiptext">Replace simple syrup with sweetened condensed milk for a creamier, denser sherbet-style result. Not vegan but extraordinarily creamy. <em>(Jennifer Meyering)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🌿</span><h3 class="tiptitle">Infuse the Syrup</h3><p class="tiptext">Add fresh mint, basil, or ginger to warm syrup. Steep 1h, strain, briefly reheat. Mint-watermelon is a revelatory combination. <em>(Healthy Seasonal Recipes)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🥂</span><h3 class="tiptitle">Prosecco Float</h3><p class="tiptext">Scoop into champagne flutes, top with chilled prosecco. Instant elegant brunch showstopper. Also great with soda water. <em>(Healthy Seasonal Recipes)</em></p></div>
+  </div></div></div>
+  <div id="wv" style="background:#fff"><div class="rsec"><p class="slbl">Make it your own</p><h2 class="stitle">Variations</h2><div class="var-grid">
+    <div class="varcard reveal"><span class="varemoji">🌿</span><div class="varname">Mint Watermelon</div><div class="vardesc">Infuse simple syrup with 8–10 mint leaves 1h, strain, reheat. A classic summer pair.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🌱</span><div class="varname">Basil Watermelon</div><div class="vardesc">Same infusion with fresh basil. Floral, unexpected, sophisticated.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🫚</span><div class="varname">Ginger Watermelon</div><div class="vardesc">Simmer ½ inch ginger in syrup 5 min, strain. Warm spice against cool sweet fruit.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🌶️</span><div class="varname">Tajín Finish</div><div class="vardesc">Top with Tajín or chili-lime salt. Sweet, cold, spicy — a Mexican classic.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🥂</span><div class="varname">Prosecco Float</div><div class="vardesc">Scoop into flutes, top with chilled prosecco. Instant brunch showstopper.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🍸</span><div class="varname">Vodka Slushie</div><div class="vardesc">Add 1–2 tbsp vodka before freezing. Lower freezing point = scoopable and boozy.</div></div>
+  </div></div></div>
+  <div id="wm" class="rpage-grad"><div class="rsec"><p class="slbl">Choose your tool</p><h2 class="stitle">Ways to Make It</h2><div class="meth-grid">
+    <div class="methcard reveal"><span class="methicon">🔧</span><div class="methname">Food Processor</div><div class="methdesc">Universally recommended. Wide bowl handles frozen chunks. Add liquid in drops only. 4–7 min total.</div></div>
+    <div class="methcard reveal"><span class="methicon">⚡</span><div class="methname">High-Speed Blender</div><div class="methdesc">Needs a splash more liquid. Blend in pulses. Don't over-blend — watermelon melts fast.</div></div>
+    <div class="methcard reveal"><span class="methicon">🍦</span><div class="methname">Ice Cream Maker</div><div class="methdesc">Blend + simple syrup first. Chill, then churn ~1h. Freeze bowl 24h ahead. <em>(Veggie Fun Kitchen)</em></div></div>
+    <div class="methcard reveal"><span class="methicon">🍴</span><div class="methname">Granita (No Machine)</div><div class="methdesc">Pour puree in shallow dish. Scrape with fork every 30 min for 3–4h. Coarser but deeply refreshing.</div></div>
+  </div></div></div>
+  <div id="wsrc" class="rpage-dark"><div class="rsec"><p class="slbl">Credit where it's due</p><h2 class="stitle">What Each Source Contributed</h2><div class="src-grid">
+    <div class="srccard reveal"><div class="srcname">🍉 Veggie Fun Kitchen</div><div class="srctxt"><strong>Simple syrup method</strong> (boil 3 min). Ice cream maker method. Can't skimp on sugar or it freezes icy.</div></div>
+    <div class="srccard reveal"><div class="srcname">🔪 The Kitchn</div><div class="srctxt"><strong>Freeze on parchment, single layer.</strong> Lime + salt combo. Parchment pressed on surface. Wrap loaf pan in plastic.</div></div>
+    <div class="srccard reveal"><div class="srcname">⚗️ Things We'll Make</div><div class="srctxt"><strong>Incremental liquid (add in drops).</strong> Food processor preferred. Vodka for slushy variation. No-sugar option with ripe melon.</div></div>
+    <div class="srccard reveal"><div class="srcname">🥝 G-Free Foodie</div><div class="srctxt"><strong>Water as blending helper.</strong> Maple syrup as optional sweetener. Simplest proof-of-concept.</div></div>
+    <div class="srccard reveal"><div class="srcname">🌿 Healthy Seasonal Recipes</div><div class="srctxt"><strong>Hot syrup onto frozen fruit</strong> blends better. Infused syrups (mint, basil, ginger). Prosecco float idea. Cream splash for sherbet.</div></div>
+    <div class="srccard reveal"><div class="srcname">🍬 Jennifer Meyering</div><div class="srctxt"><strong>Sweetened condensed milk</strong> for sherbet-style creaminess. Salt standard. Yellow ground spot = peak ripeness.</div></div>
+    <div class="srccard reveal"><div class="srcname">🍑 A Sweet Pea Chef</div><div class="srctxt">Contributed to consensus on technique, proportions, and the clean lime-forward flavour profile.</div></div>
+  </div></div></div>
+  <div class="rpage-bg"><div class="rsec"><p class="slbl">Per serving (⅙ batch)</p><h2 class="stitle">Nutrition</h2><div class="nut-row"><div class="nutcell"><div class="nutval">~80</div><div class="nutlbl">Calories</div></div><div class="nutcell"><div class="nutval">20g</div><div class="nutlbl">Carbs</div></div><div class="nutcell"><div class="nutval">18g</div><div class="nutlbl">Sugars</div></div><div class="nutcell"><div class="nutval">0g</div><div class="nutlbl">Fat</div></div><div class="nutcell"><div class="nutval">8mg</div><div class="nutlbl">Vitamin C</div></div></div></div></div>
+  <footer class="rfooter"><p><strong>The Perfect Watermelon Sorbet</strong> · Compiled from 7 sources</p><p>Veggie Fun Kitchen · The Kitchn · Things We'll Make · G-Free Foodie · Healthy Seasonal Recipes · Jennifer Meyering · A Sweet Pea Chef</p></footer>
+</div>
+
+<!-- ══════════ LEMON-LIME ══════════ -->
+<div id="lemon" class="page">
+  <button class="back-btn" onclick="goTo('home')">← All Recipes</button>
+  <section class="rhero"><div style="animation:fadein .9s ease both"><p class="r-eyebrow">Compiled from 7 sources</p><h1>The Perfect<em>Lemon &amp; Lime Sorbet</em></h1><p class="r-desc">Bracingly tart, eye-wateringly citrusy. The 2-stage freeze method and egg white trick solve every texture problem.</p><div class="r-badges"><span class="rbadge">No Machine</span><span class="rbadge">Vegan option</span><span class="rbadge">10 min active</span><span class="rbadge">4 servings</span></div></div><div style="animation:fadein .9s .18s ease both"><div class="horb">🍋</div></div><div class="rstats"><div><span class="rstat-num">10'</span><span class="rstat-lbl">Active</span></div><div class="rstat-div"></div><div><span class="rstat-num">8h</span><span class="rstat-lbl">Total</span></div><div class="rstat-div"></div><div><span class="rstat-num">4</span><span class="rstat-lbl">Servings</span></div><div class="rstat-div"></div><div><span class="rstat-num">7</span><span class="rstat-lbl">Sources</span></div></div></section>
+  <div class="srcstrip"><span class="srclbl">Based on</span><span class="srcpill">Evolving Table</span><span class="srcpill">Ginger with Spice</span><span class="srcpill">i am baker</span><span class="srcpill">Veggie World Recipes</span><span class="srcpill">Ice Cream From Scratch</span><span class="srcpill">Sam Tan's Kitchen</span><span class="srcpill">Pretty. Simple. Sweet.</span></div>
+  <div class="wave"></div>
+  <nav class="snav"><a class="snavlink" href="#li">Ingredients</a><a class="snavlink" href="#ls">Method</a><a class="snavlink" href="#lt">Tips</a><a class="snavlink" href="#lv">Variations</a><a class="snavlink" href="#lsrc">Sources</a></nav>
+  <div id="li" class="rpage-bg"><div class="rsec"><p class="slbl">What you need</p><h2 class="stitle">Ingredients</h2><div class="serving-row"><span class="serv-lbl">Servings</span><div class="serv-ctrl"><button class="serv-btn" onclick="cs('l',-1)">−</button><span class="serv-num" id="l-sc">4</span><button class="serv-btn" onclick="cs('l',1)">+</button></div></div><div class="ing-grid" id="l-ig"></div></div></div>
+  <div id="ls" style="background:#fff"><div class="rsec"><p class="slbl">How to make it</p><h2 class="stitle">Method</h2><div class="steps">
+    <div class="step reveal"><div class="snum">1</div><div class="sbody"><h3 class="steptitle">🍋 Juice &amp; Zest Your Citrus</h3><p class="steptext">Always zest before juicing — you can't zest a juiced lemon. Use a microplane for finest zest. <strong>Lemon + lime together</strong> gives a more complex, layered flavour than either alone: lemon is floral and round; lime is sharp and green. ¾ lemon to ¼ lime is the sweet spot.</p><div class="steptip"><strong>Coconut milk upgrade:</strong> Add ¼ cup full-fat coconut milk to the syrup for a vegan creamy version. <em>(Veggie World Recipes)</em></div></div></div>
+    <div class="step reveal"><div class="snum">2</div><div class="sbody"><h3 class="steptitle">🍯 Make the Simple Syrup</h3><p class="steptext">Combine sugar and water in a small saucepan. Gentle boil 1–2 min until fully dissolved. <strong>Let cool completely to room temperature before adding citrus juice</strong> — hot syrup dulls the volatile acids responsible for bright, fresh citrus flavour. Cool in an ice bath to speed things up.</p><div class="steptip"><strong>Elderflower upgrade (Ginger with Spice):</strong> Steep 2–3 elderflower heads or 1 tbsp elderflower cordial in warm syrup 1 hour, strain. The floral note alongside sharp lemon is transcendent.</div></div></div>
+    <div class="step reveal"><div class="snum">3</div><div class="sbody"><h3 class="steptitle">🥄 Mix &amp; First Freeze (3–4 hrs)</h3><p class="steptext">Pour cooled syrup, citrus juice, and zest into a <strong>metal loaf pan</strong> (metal conducts cold faster than glass or plastic). Stir well. Freeze uncovered 3–4 hours until mostly firm but not rock solid.</p><button class="timer" onclick="startTimer(10800,this)">⏱ Start 3-hr timer</button></div></div>
+    <div class="step reveal"><div class="snum">4</div><div class="sbody"><h3 class="steptitle">⚙️ The 2-Stage Blend</h3><p class="steptext">Break mostly-frozen sorbet into chunks. Transfer to food processor or blender. Blend 1–2 min until smooth. <strong>Don't over-blend — it melts.</strong> This stage breaks up ice crystals before they grow larger. Pour back into pan.</p><div class="steptip"><strong>Egg white secret (Ginger with Spice, Sam Tan's Kitchen):</strong> Whisk 1 large egg white to stiff meringue, fold gently into the blended base before the second freeze. It emulsifies and aerates the sorbet — light, almost fluffy, and astonishingly creamy. Use pasteurised eggs if concerned. You will not taste it.</div></div></div>
+    <div class="step reveal"><div class="snum">5</div><div class="sbody"><h3 class="steptitle">🧊 Second Freeze (4h+)</h3><p class="steptext">Freeze blended sorbet 4 hours or overnight. Press parchment on surface. Thaw 5 min before scooping.</p><button class="timer" onclick="startTimer(14400,this)">⏱ Start 4-hr timer</button><div class="steptip"><strong>Alcohol trick:</strong> 1–2 tbsp vodka before the second freeze keeps texture scoopable and slightly softer. <em>(Ginger with Spice)</em></div></div></div>
+  </div></div></div>
+  <div id="lt" class="rpage-alt"><div class="rsec"><p class="slbl">Expert knowledge</p><h2 class="stitle">Pro Tips from All 7 Sources</h2><div class="tips-grid">
+    <div class="tipcard reveal"><span class="tipemoji">🥚</span><h3 class="tiptitle">The Egg White Secret</h3><p class="tiptext">One whipped egg white (stiff meringue) folded in before the second freeze transforms the texture — creamy, light, almost fluffy. No cream, no dairy, no taste of egg. Use pasteurised eggs if needed. <em>(Ginger with Spice, Sam Tan's Kitchen)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🍋🟢</span><h3 class="tiptitle">Lemon + Lime Together</h3><p class="tiptext">Use both. Lemon is floral and round; lime is sharp and green. Together they create a more complex citrus flavour than either alone. ¾ lemon to ¼ lime is the ideal ratio.</p></div>
+    <div class="tipcard reveal"><span class="tipemoji">❄️</span><h3 class="tiptitle">The 2-Stage Method</h3><p class="tiptext">Partial freeze → blend → freeze again. The blending in stage 2 breaks up ice crystals before they grow large and gritty. This is what separates smooth citrus sorbet from grainy. <em>(Evolving Table)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🌡️</span><h3 class="tiptitle">Cool Syrup Before Adding Juice</h3><p class="tiptext">Hot syrup added to citrus juice dulls the volatile compounds responsible for bright, fresh flavour. Always cool to room temperature first. <em>(i am baker)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🌸</span><h3 class="tiptitle">Elderflower Infusion</h3><p class="tiptext">Steep elderflower in warm syrup 1 hour before straining. The honey-like, floral elderflower alongside sharp lemon is extraordinary — widely considered the elevated version of this sorbet. <em>(Ginger with Spice)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🍸</span><h3 class="tiptitle">Exceptional in Cocktails</h3><p class="tiptext">Float a scoop in vodka-prosecco, gin and tonic, or blend into frozen lemonade with soda water. The bright acidity pairs with almost any clear spirit. <em>(i am baker, multiple sources)</em></p></div>
+  </div></div></div>
+  <div id="lv" style="background:#fff"><div class="rsec"><p class="slbl">Make it your own</p><h2 class="stitle">Variations</h2><div class="var-grid">
+    <div class="varcard reveal"><span class="varemoji">🌸</span><div class="varname">Lemon Elderflower</div><div class="vardesc">Steep elderflower in warm syrup 1h, strain. A transcendent floral-citrus combination. <em>(Ginger with Spice)</em></div></div>
+    <div class="varcard reveal"><span class="varemoji">🍈</span><div class="varname">Pure Lime</div><div class="vardesc">All lime, no lemon. Key limes are more aromatic; Persian limes easier to juice. Add extra zest. <em>(Ice Cream From Scratch)</em></div></div>
+    <div class="varcard reveal"><span class="varemoji">🍋</span><div class="varname">Meyer Lemon</div><div class="vardesc">Sweeter, more floral, less acidic. Use less sugar and let the lemon character shine.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🥥</span><div class="varname">Coconut Lemon</div><div class="vardesc">Add ¼ cup full-fat coconut milk to the syrup. Creamy, tropical, velvety. <em>(Veggie World Recipes)</em></div></div>
+    <div class="varcard reveal"><span class="varemoji">🍸</span><div class="varname">Vodka Prosecco Float</div><div class="vardesc">Scoop into flutes, add a splash of vodka, top with prosecco. Pure brilliance. <em>(i am baker)</em></div></div>
+    <div class="varcard reveal"><span class="varemoji">🌿</span><div class="varname">Lemon Basil</div><div class="vardesc">Steep 8 fresh basil leaves in warm syrup 1h, strain. Basil-lemon is unexpectedly perfect.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🌶️</span><div class="varname">Lime Chili</div><div class="vardesc">Pinch of cayenne + ¼ tsp chili powder in the syrup. Tajín sprinkled on top. Electric.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🍊</span><div class="varname">Citrus Trio</div><div class="vardesc">Lemon + lime + grapefruit 2:1:1 ratio. Use less sugar — grapefruit adds bitterness. Complex and magnificent.</div></div>
+  </div></div></div>
+  <div id="lsrc" class="rpage-dark"><div class="rsec"><p class="slbl">Credit where it's due</p><h2 class="stitle">What Each Source Contributed</h2><div class="src-grid">
+    <div class="srccard reveal"><div class="srcname">🍋 Evolving Table</div><div class="srctxt"><strong>The 2-stage freeze-blend-refreeze method.</strong> Metal loaf pan tip. Agave/honey as simple syrup alternatives. Both juice and zest essential.</div></div>
+    <div class="srccard reveal"><div class="srcname">🌸 Ginger with Spice</div><div class="srctxt"><strong>Elderflower infusion.</strong> <strong>Egg white for creaminess.</strong> Vodka to lower freezing point. Italian sorbetto di limone tradition and history.</div></div>
+    <div class="srccard reveal"><div class="srcname">🧁 i am baker</div><div class="srctxt"><strong>Cool syrup completely before adding juice</strong> — preserves bright flavour. Vodka-prosecco float application. Slight slushiness is acceptable and enjoyable.</div></div>
+    <div class="srccard reveal"><div class="srcname">🌿 Veggie World Recipes</div><div class="srctxt"><strong>Full-fat coconut milk</strong> for a naturally vegan creamy version. Maple syrup as sweetener. Meyer vs Lisbon lemon comparison.</div></div>
+    <div class="srccard reveal"><div class="srcname">🍦 Ice Cream From Scratch</div><div class="srctxt"><strong>Key lime variation.</strong> Ice cream maker instructions. Lime zest quantity (2 tbsp for intensity). Churn vs no-churn comparison.</div></div>
+    <div class="srccard reveal"><div class="srcname">🥚 Sam Tan's Kitchen</div><div class="srctxt"><strong>Stiff meringue egg white method</strong> — whisked to stiff peaks specifically for maximum structure and airiness.</div></div>
+    <div class="srccard reveal"><div class="srcname">🍓 Pretty. Simple. Sweet.</div><div class="srctxt">Confirmed <strong>frozen-fruit approach doesn't work for citrus</strong> — you need juice. Salt's role in amplifying citrus flavour. Granulated sugar only for texture.</div></div>
+  </div></div></div>
+  <div class="rpage-bg"><div class="rsec"><p class="slbl">Per serving (¼ batch)</p><h2 class="stitle">Nutrition</h2><div class="nut-row"><div class="nutcell"><div class="nutval">~164</div><div class="nutlbl">Calories</div></div><div class="nutcell"><div class="nutval">44g</div><div class="nutlbl">Carbs</div></div><div class="nutcell"><div class="nutval">39g</div><div class="nutlbl">Sugars</div></div><div class="nutcell"><div class="nutval">0.2g</div><div class="nutlbl">Fat</div></div><div class="nutcell"><div class="nutval">23mg</div><div class="nutlbl">Vitamin C</div></div></div></div></div>
+  <footer class="rfooter"><p><strong>The Perfect Lemon &amp; Lime Sorbet</strong> · Compiled from 7 sources</p><p>Evolving Table · Ginger with Spice · i am baker · Veggie World Recipes · Ice Cream From Scratch · Sam Tan's Kitchen · Pretty. Simple. Sweet.</p></footer>
+</div>
+
+<!-- ══════════ STRAWBERRY ══════════ -->
+<div id="strawberry" class="page">
+  <button class="back-btn" onclick="goTo('home')">← All Recipes</button>
+  <section class="rhero"><div style="animation:fadein .9s ease both"><p class="r-eyebrow">Compiled from 7 sources</p><h1>The Perfect<em>Strawberry Sorbet</em></h1><p class="r-desc">Deep, jammy, pure berry. The frozen-fruit trick means no machine needed — just 5 minutes and a food processor.</p><div class="r-badges"><span class="rbadge">No Machine</span><span class="rbadge">Vegan</span><span class="rbadge">5 min active</span><span class="rbadge">4 servings</span></div></div><div style="animation:fadein .9s .18s ease both"><div class="horb">🍓</div></div><div class="rstats"><div><span class="rstat-num">5'</span><span class="rstat-lbl">Active</span></div><div class="rstat-div"></div><div><span class="rstat-num">3h</span><span class="rstat-lbl">Total</span></div><div class="rstat-div"></div><div><span class="rstat-num">4</span><span class="rstat-lbl">Servings</span></div><div class="rstat-div"></div><div><span class="rstat-num">7</span><span class="rstat-lbl">Sources</span></div></div></section>
+  <div class="srcstrip"><span class="srclbl">Based on</span><span class="srcpill">Pretty. Simple. Sweet.</span><span class="srcpill">Powerhungry</span><span class="srcpill">Single Serving Chef</span><span class="srcpill">Ice Cream From Scratch</span><span class="srcpill">In the Kitchen with Matt</span><span class="srcpill">Frosted Fusions</span><span class="srcpill">Whole Food Bellies</span></div>
+  <div class="wave"></div>
+  <nav class="snav"><a class="snavlink" href="#si">Ingredients</a><a class="snavlink" href="#ss">Method</a><a class="snavlink" href="#st">Tips</a><a class="snavlink" href="#sv">Variations</a><a class="snavlink" href="#ssrc">Sources</a></nav>
+  <div id="si" class="rpage-bg"><div class="rsec"><p class="slbl">What you need</p><h2 class="stitle">Ingredients</h2><div class="serving-row"><span class="serv-lbl">Servings</span><div class="serv-ctrl"><button class="serv-btn" onclick="cs('s',-1)">−</button><span class="serv-num" id="s-sc">4</span><button class="serv-btn" onclick="cs('s',1)">+</button></div></div><div class="ing-grid" id="s-ig"></div></div></div>
+  <div id="ss" style="background:#fff"><div class="rsec"><p class="slbl">How to make it</p><h2 class="stitle">Method</h2><div class="steps">
+    <div class="step reveal"><div class="snum">1</div><div class="sbody"><h3 class="steptitle">🍓 Choose &amp; Freeze Strawberries</h3><p class="steptext">Use fresh strawberries at peak ripeness — hull, halve, spread single layer on parchment, freeze 1 hour until firm. Or use store-bought frozen directly. <strong>Frozen strawberries are the secret to no-machine sorbet</strong> — the frozen texture means ice crystals don't form when you blend. <em>(Pretty. Simple. Sweet.)</em></p><div class="steptip"><strong>Fresh vs frozen:</strong> Fresh-then-frozen gives the most vibrant colour and taste. Store-bought frozen is excellent too. Never canned — the texture and flavour are ruined.</div></div></div>
+    <div class="step reveal"><div class="snum">2</div><div class="sbody"><h3 class="steptitle">🍯 Make &amp; Cool the Simple Syrup</h3><p class="steptext">Combine sugar and water in a saucepan. Simmer 1–2 min until dissolved. Remove from heat. <strong>Cool 20–30 min before using</strong> — hot syrup on strawberries dulls the fresh berry flavour. Make ahead and keep in the fridge. <em>(Single Serving Chef, Frosted Fusions)</em></p></div></div>
+    <div class="step reveal"><div class="snum">3</div><div class="sbody"><h3 class="steptitle">⚙️ Quick Rinse, Then Blend</h3><p class="steptext">Rinse frozen strawberries under cold water for 10–15 seconds — this prevents the food processor from jamming. <em>(Pretty. Simple. Sweet.)</em> Add to food processor with cooled syrup, lemon juice, and salt. Process scraping sides often until completely silky. Run 30–60 sec past what looks smooth. Taste and adjust.</p><div class="steptip"><strong>On sweetener:</strong> Granulated sugar is the consensus best for sorbet texture. Maple syrup works but less evenly. Alternative sweeteners (stevia, monkfruit) will make the sorbet freeze rock-hard. <em>(Pretty. Simple. Sweet.)</em></div></div></div>
+    <div class="step reveal"><div class="snum">4</div><div class="sbody"><h3 class="steptitle">🍦 Soft-Serve or Freeze</h3><p class="steptext">Eat immediately for soft-serve. For scoopable: transfer to pre-chilled container, press parchment on surface, seal. <strong>Stir with a fork every 30 min for the first 1–2 hours</strong> of freezing — adds air and dramatically improves the texture. <em>(Ice Cream From Scratch)</em></p><button class="timer" onclick="startTimer(10800,this)">⏱ Start 3-hr freeze timer</button></div></div>
+    <div class="step reveal"><div class="snum">5</div><div class="sbody"><h3 class="steptitle">🍽️ Scoop &amp; Serve</h3><p class="steptext">Thaw 10 min before scooping. Keeps up to 3 months tightly sealed. <strong>If too icy:</strong> let soften 20 min, reprocess in food processor, refreeze. <em>(Ice Cream From Scratch)</em></p><div class="steptip"><strong>Champagne float:</strong> Scoop into flutes, top with sparkling wine or champagne. Perfect for entertaining. <em>(Pretty. Simple. Sweet.)</em></div></div></div>
+  </div></div></div>
+  <div id="st" class="rpage-alt"><div class="rsec"><p class="slbl">Expert knowledge</p><h2 class="stitle">Pro Tips from All 7 Sources</h2><div class="tips-grid">
+    <div class="tipcard reveal"><span class="tipemoji">🍓</span><h3 class="tiptitle">Frozen Is the Secret</h3><p class="tiptext">Using frozen strawberries (rather than fresh + ice cream maker) is the entire trick. The frozen texture prevents ice crystals forming during blending. <em>(Pretty. Simple. Sweet.)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">💧</span><h3 class="tiptitle">Quick Cold-Water Rinse</h3><p class="tiptext">Running frozen strawberries under cold water 10–15 seconds softens the exterior just enough to prevent the food processor jamming. <em>(Pretty. Simple. Sweet.)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🥄</span><h3 class="tiptitle">Stir During Freezing</h3><p class="tiptext">Stir with a fork every 30 min for the first 1–2 hours. This breaks up forming ice crystals and incorporates air for a smoother, more scoopable final texture. <em>(Ice Cream From Scratch)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🧂</span><h3 class="tiptitle">Salt Is Non-Negotiable</h3><p class="tiptext">A small pinch of salt amplifies the strawberry flavour significantly without any salty aftertaste. Subtle but clearly different without it. <em>(Pretty. Simple. Sweet.)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🍋</span><h3 class="tiptitle">Lemon Amplifies Strawberry</h3><p class="tiptext">The right amount of lemon juice doesn't taste like lemon — it makes the strawberry taste more intensely like itself. Start with 1 tbsp and taste up. <em>(Multiple sources)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🍌</span><h3 class="tiptitle">Banana for Creaminess</h3><p class="tiptext">Add 1 frozen banana for natural creaminess without any dairy. The combination needs less added sugar and the texture approaches soft-serve ice cream. <em>(Whole Food Bellies)</em></p></div>
+  </div></div></div>
+  <div id="sv" style="background:#fff"><div class="rsec"><p class="slbl">Make it your own</p><h2 class="stitle">Variations</h2><div class="var-grid">
+    <div class="varcard reveal"><span class="varemoji">🌹</span><div class="varname">Strawberry Rosé</div><div class="vardesc">Replace 2 tbsp water in syrup with dry rosé wine. Elegant and sophisticated.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🌿</span><div class="varname">Strawberry Basil</div><div class="vardesc">Steep 6–8 fresh basil leaves in warm syrup 1h, strain. Herbaceous and unexpected.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🍫</span><div class="varname">Strawberry Balsamic</div><div class="vardesc">Add 1 tbsp aged balsamic vinegar. Deepens the berry flavour enormously.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🥂</span><div class="varname">Champagne Float</div><div class="vardesc">Scoop into flutes, top with champagne or prosecco. Instant elegance.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🫐</span><div class="varname">Mixed Berry</div><div class="vardesc">Replace ⅓ with raspberries or blueberries for a deeper, more complex berry profile.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🍌</span><div class="varname">Strawberry Banana</div><div class="vardesc">Add 1 frozen banana. Creamier, sweeter, much less added sugar needed. <em>(Whole Food Bellies)</em></div></div>
+    <div class="varcard reveal"><span class="varemoji">🌶️</span><div class="varname">Strawberry Jalapeño</div><div class="vardesc">Add ¼ fresh jalapeño (seeded) to the base. Sweet-heat with strawberry is extraordinary.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🥥</span><div class="varname">Strawberry Coconut</div><div class="vardesc">Replace 2 tbsp water in syrup with full-fat coconut milk. Tropical and creamy.</div></div>
+  </div></div></div>
+  <div id="ssrc" class="rpage-dark"><div class="rsec"><p class="slbl">Credit where it's due</p><h2 class="stitle">What Each Source Contributed</h2><div class="src-grid">
+    <div class="srccard reveal"><div class="srcname">🍓 Pretty. Simple. Sweet.</div><div class="srctxt"><strong>Frozen strawberries as the no-machine secret.</strong> Cold-water rinse trick. Salt's role. Granulated sugar only. Champagne float application.</div></div>
+    <div class="srccard reveal"><div class="srcname">⚡ Powerhungry</div><div class="srctxt"><strong>Maple syrup as sweetener.</strong> Fresh-to-frozen method on parchment 1h. Pinch of salt. 2-ingredient proof-of-concept.</div></div>
+    <div class="srccard reveal"><div class="srcname">🥄 Single Serving Chef</div><div class="srctxt"><strong>Simple syrup + lemon juice baseline.</strong> Cool the syrup before adding fruit. Stick blender as an option. No complicated steps needed.</div></div>
+    <div class="srccard reveal"><div class="srcname">🍦 Ice Cream From Scratch</div><div class="srctxt"><strong>Stir every 30 min during freezing.</strong> Parchment pressed on surface. Reprocess-if-icy rescue method. Lemon juice increases tartness proportionally.</div></div>
+    <div class="srccard reveal"><div class="srcname">🍳 In the Kitchen with Matt</div><div class="srctxt"><strong>Fresh or thawed frozen both work.</strong> No special equipment. Stick blender option. Great entry-level proof sorbet isn't intimidating.</div></div>
+    <div class="srccard reveal"><div class="srcname">✨ Frosted Fusions</div><div class="srctxt"><strong>Detailed cooling time for syrup</strong> (20–30 min before using). Simple syrup for even distribution. Granita-style stir intervals for lighter result.</div></div>
+    <div class="srccard reveal"><div class="srcname">🍌 Whole Food Bellies</div><div class="srctxt"><strong>Frozen banana for creaminess</strong> — strawberry + banana creates a sherbet-like texture without dairy. Much less sugar needed.</div></div>
+  </div></div></div>
+  <div class="rpage-bg"><div class="rsec"><p class="slbl">Per serving (¼ batch)</p><h2 class="stitle">Nutrition</h2><div class="nut-row"><div class="nutcell"><div class="nutval">~120</div><div class="nutlbl">Calories</div></div><div class="nutcell"><div class="nutval">30g</div><div class="nutlbl">Carbs</div></div><div class="nutcell"><div class="nutval">26g</div><div class="nutlbl">Sugars</div></div><div class="nutcell"><div class="nutval">3g</div><div class="nutlbl">Fiber</div></div><div class="nutcell"><div class="nutval">85mg</div><div class="nutlbl">Vitamin C</div></div></div></div></div>
+  <footer class="rfooter"><p><strong>The Perfect Strawberry Sorbet</strong> · Compiled from 7 sources</p><p>Pretty. Simple. Sweet. · Powerhungry · Single Serving Chef · Ice Cream From Scratch · In the Kitchen with Matt · Frosted Fusions · Whole Food Bellies</p></footer>
+</div>
+
+<!-- ══════════ PEACH ══════════ -->
+<div id="peach" class="page">
+  <button class="back-btn" onclick="goTo('home')">← All Recipes</button>
+  <section class="rhero"><div style="animation:fadein .9s ease both"><p class="r-eyebrow">Compiled from 7 sources</p><h1>The Perfect<em>Peach Sorbet</em></h1><p class="r-desc">Sweet, fragrant, summer-in-a-bowl. Includes the brown sugar bourbon version that elevates it to something truly special.</p><div class="r-badges"><span class="rbadge">No Machine</span><span class="rbadge">Vegan option</span><span class="rbadge">5 min active</span><span class="rbadge">4 servings</span></div></div><div style="animation:fadein .9s .18s ease both"><div class="horb">🍑</div></div><div class="rstats"><div><span class="rstat-num">5'</span><span class="rstat-lbl">Active</span></div><div class="rstat-div"></div><div><span class="rstat-num">4h</span><span class="rstat-lbl">Total</span></div><div class="rstat-div"></div><div><span class="rstat-num">4</span><span class="rstat-lbl">Servings</span></div><div class="rstat-div"></div><div><span class="rstat-num">7</span><span class="rstat-lbl">Sources</span></div></div></section>
+  <div class="srcstrip"><span class="srclbl">Based on</span><span class="srcpill">Insanely Good Recipes</span><span class="srcpill">Ginger with Spice</span><span class="srcpill">Olives + Thyme</span><span class="srcpill">Chef Not Required</span><span class="srcpill">Moon &amp; Spoon &amp; Yum</span><span class="srcpill">Craving Something Healthy</span><span class="srcpill">A Sweet Thyme</span></div>
+  <div class="wave"></div>
+  <nav class="snav"><a class="snavlink" href="#pi">Ingredients</a><a class="snavlink" href="#ps">Method</a><a class="snavlink" href="#pt">Tips</a><a class="snavlink" href="#pv">Variations</a><a class="snavlink" href="#psrc">Sources</a></nav>
+  <div id="pi" class="rpage-bg"><div class="rsec"><p class="slbl">What you need</p><h2 class="stitle">Ingredients</h2><div class="serving-row"><span class="serv-lbl">Servings</span><div class="serv-ctrl"><button class="serv-btn" onclick="cs('p',-1)">−</button><span class="serv-num" id="p-sc">4</span><button class="serv-btn" onclick="cs('p',1)">+</button></div></div><div class="ing-grid" id="p-ig"></div></div></div>
+  <div id="ps" style="background:#fff"><div class="rsec"><p class="slbl">How to make it</p><h2 class="stitle">Method</h2><div class="steps">
+    <div class="step reveal"><div class="snum">1</div><div class="sbody"><h3 class="steptitle">🍑 Choose &amp; Prep the Peaches</h3><p class="steptext">Fresh, ripe peaches are the gold standard. <strong>Ripe = heavier, fragrant at stem end, gives slightly when pressed.</strong> A ripe August peach makes a dramatically more flavourful sorbet than an unripe one. Slice each peach into 8 wedges, then peel each slice individually — faster than peeling whole and leaves less flesh behind. Do not use canned peaches. <em>(Insanely Good, Chef Not Required)</em></p></div></div>
+    <div class="step reveal"><div class="snum">2</div><div class="sbody"><h3 class="steptitle">❄️ Freeze the Peaches (3 hrs)</h3><p class="steptext">Spread slices in a <strong>single layer on parchment</strong> on a baking sheet. Freeze 3 hours until firm. Or use pre-frozen peach slices — let them thaw at room temperature for 5–10 min before blending so the machine isn't strained.</p><button class="timer" onclick="startTimer(10800,this)">⏱ Start 3-hr timer</button></div></div>
+    <div class="step reveal"><div class="snum">3</div><div class="sbody"><h3 class="steptitle">⚙️ Blend</h3><p class="steptext">Add frozen peaches to food processor. Add sugar, lemon juice, and salt. Pulse to break up, then process continuously scraping often until smooth, 3–5 min. <strong>Add lemon juice gradually to taste</strong> — peach sweetness varies enormously between varieties and seasons.</p><div class="steptip"><strong>Brown sugar upgrade:</strong> Swap granulated for brown sugar. The caramel notes complement peach naturally — widely considered the best version of this sorbet. Add vanilla extract too. <em>(Ginger with Spice)</em></div></div></div>
+    <div class="step reveal"><div class="snum">4</div><div class="sbody"><h3 class="steptitle">👅 Taste &amp; Calibrate</h3><p class="steptext">Peaches vary wildly in sweetness — an August farmers market peach may need barely any sugar; a supermarket peach may need double. Base should taste <strong>slightly too sweet and slightly too acidic</strong> — both muted by freezing. Honey is a great sweetener here: it complements peach's floral quality and keeps the sorbet slightly softer. <em>(Craving Something Healthy)</em></p></div></div>
+    <div class="step reveal"><div class="snum">5</div><div class="sbody"><h3 class="steptitle">🍦 Freeze &amp; Serve</h3><p class="steptext">Eat immediately for soft-serve. For scoopable: transfer to pre-chilled container, press parchment on surface, freeze 4–6h or overnight. <strong>Thaw 5 min before scooping — non-negotiable.</strong> Keeps up to 2 weeks.</p><button class="timer" onclick="startTimer(14400,this)">⏱ Start 4-hr freeze timer</button><div class="steptip"><strong>Egg white for airiness:</strong> Beat 1 egg white to soft peaks, fold in just before freezing. Lighter, more airy, almost mousse-like texture. Same Italian sorbetto technique. <em>(Ginger with Spice)</em></div></div></div>
+  </div></div></div>
+  <div id="pt" class="rpage-alt"><div class="rsec"><p class="slbl">Expert knowledge</p><h2 class="stitle">Pro Tips from All 7 Sources</h2><div class="tips-grid">
+    <div class="tipcard reveal"><span class="tipemoji">🍑</span><h3 class="tiptitle">Fresh Is Best</h3><p class="tiptext">Frozen peaches make a muted, less vibrant sorbet. Fresh, peak-season peaches (August in North America) make the difference between good and transcendent. <em>(Insanely Good Recipes)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🍬</span><h3 class="tiptitle">Brown Sugar Upgrades Everything</h3><p class="tiptext">Replacing white sugar with brown sugar adds warm caramel notes that pair naturally with peach. The Ginger with Spice brown sugar + bourbon version is widely considered the most sophisticated take.</p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🥃</span><h3 class="tiptitle">Bourbon Variation</h3><p class="tiptext">Add 1–2 tbsp bourbon. Caramel-oak notes are a legendary pairing with peach, and the alcohol lowers the freezing point keeping it scoopable. <em>(Ginger with Spice)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🍯</span><h3 class="tiptitle">Honey Over Sugar</h3><p class="tiptext">Honey resonates with peach's own floral quality. It also keeps the sorbet slightly softer. Use mild honey (acacia, clover) so it doesn't overpower. <em>(Craving Something Healthy)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🔪</span><h3 class="tiptitle">Slice Then Peel</h3><p class="tiptext">Slice the peach into 8 wedges first, then peel each slice. Faster than peeling whole, leaves less flesh on the skin, and gives neater pieces. <em>(Chef Not Required)</em></p></div>
+    <div class="tipcard reveal"><span class="tipemoji">🥚</span><h3 class="tiptitle">Egg White for Airiness</h3><p class="tiptext">Beat 1 egg white to soft peaks, fold in before the final freeze. Emulsifies and aerates the sorbet to a creamy, almost mousse-like texture. <em>(Ginger with Spice)</em></p></div>
+  </div></div></div>
+  <div id="pv" style="background:#fff"><div class="rsec"><p class="slbl">Make it your own</p><h2 class="stitle">Variations</h2><div class="var-grid">
+    <div class="varcard reveal"><span class="varemoji">🥃</span><div class="varname">Brown Sugar Bourbon</div><div class="vardesc">Brown sugar + 1–2 tbsp bourbon + vanilla bean. The most sophisticated version. <em>(Ginger with Spice)</em></div></div>
+    <div class="varcard reveal"><span class="varemoji">🍯</span><div class="varname">Honey Peach</div><div class="vardesc">Replace sugar entirely with honey. Floral, natural, and keeps it softer. <em>(Craving Something Healthy)</em></div></div>
+    <div class="varcard reveal"><span class="varemoji">🫐</span><div class="varname">Raspberry Peach</div><div class="vardesc">Replace half the peaches with frozen raspberries. Tart, vibrant, stunning colour.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🌿</span><div class="varname">Peach Basil</div><div class="vardesc">Steep 6–8 fresh basil leaves in warm syrup 1h, strain. Floral and Italian-inspired.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🫚</span><div class="varname">Peach Ginger</div><div class="vardesc">Simmer ½ inch ginger in syrup 5 min, strain. Warm-spiced peach is a revelation.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🍋</span><div class="varname">Peach Lemon</div><div class="vardesc">Double the lemon juice + 1 tsp zest. Bright, punchy, citrus-forward.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🥛</span><div class="varname">Sherbet Style</div><div class="vardesc">Add 2 tbsp sweetened condensed milk. Creamier, richer, milkier — closer to ice cream.</div></div>
+    <div class="varcard reveal"><span class="varemoji">🌱</span><div class="varname">Peach Mint</div><div class="vardesc">Steep 8 mint leaves in warm syrup 1h, strain. Cooling mint against warm peach is perfect.</div></div>
+  </div></div></div>
+  <div id="psrc" class="rpage-dark"><div class="rsec"><p class="slbl">Credit where it's due</p><h2 class="stitle">What Each Source Contributed</h2><div class="src-grid">
+    <div class="srccard reveal"><div class="srcname">🍑 Insanely Good Recipes</div><div class="srctxt"><strong>Fresh is best — frozen notably worse.</strong> Freeze single layer 3h. Cut into small chunks for easier processing. Taste then add salt to avoid over-salting.</div></div>
+    <div class="srccard reveal"><div class="srcname">🍬 Ginger with Spice</div><div class="srctxt"><strong>Brown sugar + bourbon variation.</strong> Egg white for creaminess. Vanilla bean in base. Half-freeze then blend method. The most elevated version of peach sorbet.</div></div>
+    <div class="srccard reveal"><div class="srcname">🫒 Olives + Thyme</div><div class="srctxt"><strong>Frozen peaches work but thaw first.</strong> Maple sugar as refined-sugar-free option. Honey as preferred liquid sweetener. Lime juice as alternative. Ice cream maker method.</div></div>
+    <div class="srccard reveal"><div class="srcname">🧑‍🍳 Chef Not Required</div><div class="srctxt"><strong>Slice-then-peel method.</strong> No simple syrup needed — blend peaches + sugar directly. Add lemon to taste, not a fixed amount. 3-ingredient simplicity proof.</div></div>
+    <div class="srccard reveal"><div class="srcname">🌙 Moon &amp; Spoon &amp; Yum</div><div class="srctxt"><strong>Fresh or frozen both work.</strong> Peel fresh peaches for smoother texture. Adjust sugar to personal taste. Rest 5 min at room temp before scooping — non-negotiable.</div></div>
+    <div class="srccard reveal"><div class="srcname">🥗 Craving Something Healthy</div><div class="srctxt"><strong>Honey over sugar</strong> — keeps it softer and complements peach's floral quality. Zero-calorie sweeteners freeze rock-hard. Mediterranean diet aligned.</div></div>
+    <div class="srccard reveal"><div class="srcname">🍬 A Sweet Thyme</div><div class="srctxt"><strong>Simple syrup method</strong> (cool completely before using). Blender works equally well. Raspberry peach variation. Clean lemon-brightened profile.</div></div>
+  </div></div></div>
+  <div class="rpage-bg"><div class="rsec"><p class="slbl">Per serving (¼ batch)</p><h2 class="stitle">Nutrition</h2><div class="nut-row"><div class="nutcell"><div class="nutval">~130</div><div class="nutlbl">Calories</div></div><div class="nutcell"><div class="nutval">34g</div><div class="nutlbl">Carbs</div></div><div class="nutcell"><div class="nutval">31g</div><div class="nutlbl">Sugars</div></div><div class="nutcell"><div class="nutval">2g</div><div class="nutlbl">Fiber</div></div><div class="nutcell"><div class="nutval">7mg</div><div class="nutlbl">Vitamin C</div></div><div class="nutcell"><div class="nutval">499IU</div><div class="nutlbl">Vitamin A</div></div></div></div></div>
+  <footer class="rfooter"><p><strong>The Perfect Peach Sorbet</strong> · Compiled from 7 sources</p><p>Insanely Good Recipes · Ginger with Spice · Olives + Thyme · Chef Not Required · Moon &amp; Spoon &amp; Yum · Craving Something Healthy · A Sweet Thyme</p></footer>
+</div>
+
+<script>
+// ── PAGE NAV ──
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  setTimeout(initReveal,100);
+}
+
+// ── INGREDIENT DATA ──
+const RECIPES={
+  m:{base:6,ings:[
+    {e:'🥭',a:4,u:'cups',n:'frozen mango chunks',nt:'About two 10-oz bags',s:'Consensus'},
+    {e:'🍑',a:1,u:'cup',n:'fresh mango, cubed & frozen',nt:'Freeze 4+ hrs on parchment',s:'Vitamix'},
+    {e:'🍬',a:3,u:'tbsp',n:'granulated sugar',nt:'Minimum for scoopability',s:'The Flavor Bender'},
+    {e:'🍁',a:1,u:'tbsp',n:'maple syrup or honey',nt:'Or agave — any liquid sweetener',s:'Minimalist Baker'},
+    {e:'🍋',a:3,u:'tbsp',n:'fresh lime juice',nt:'About 1 large lime',s:'Consensus'},
+    {e:'🟢',a:1,u:'tsp',n:'lime zest',nt:'Adds fragrance juice alone cannot give',s:'Gimme Some Oven'},
+    {e:'🍍',a:2,u:'tbsp',n:'unsweetened pineapple juice',nt:'Brightens without tasting like pineapple',s:"Perry's Plate"},
+    {e:'🫚',a:1,u:'tsp',n:'fresh ginger, finely grated',nt:'Peeled first',s:'Gimme Some Oven'},
+    {e:'🧂',a:'⅛',u:'tsp',n:'fine sea salt',nt:'Amplifies the mango flavour',s:'Reader consensus'},
+    {e:'🥥',a:3,u:'tbsp',n:'full-fat coconut milk',nt:'Adds body and creaminess',s:'Multiple sources'},
+  ]},
+  w:{base:6,ings:[
+    {e:'🍉',a:6,u:'cups',n:'seedless watermelon, ¾-inch cubes',nt:'About ½ a small watermelon',s:'Consensus'},
+    {e:'🍬',a:3,u:'tbsp',n:'granulated sugar (simple syrup)',nt:"Can't skimp — causes iciness",s:'Veggie Fun Kitchen'},
+    {e:'💧',a:3,u:'tbsp',n:'water (for simple syrup)',nt:'Equal ratio to sugar',s:'Veggie Fun Kitchen'},
+    {e:'🍋',a:2,u:'tbsp',n:'fresh lime juice',nt:'About 1 medium lime',s:'The Kitchn'},
+    {e:'🟢',a:1,u:'tsp',n:'lime zest',nt:'Fragrant top notes',s:'The Kitchn'},
+    {e:'🍁',a:1,u:'tbsp',n:'maple syrup or honey (optional)',nt:'Adjust to watermelon sweetness',s:'G-Free Foodie'},
+    {e:'🧂',a:'¼',u:'tsp',n:'fine sea salt',nt:'Brings out the sweetness',s:'Jennifer Meyering'},
+    {e:'💧',a:2,u:'tbsp',n:'extra water or coconut water (if needed)',nt:'Add in drops only — never a splash',s:"Things We'll Make"},
+  ]},
+  l:{base:4,ings:[
+    {e:'🍋',a:1.25,u:'cups',n:'fresh lemon juice (or ¾ lemon + ½ lime)',nt:'About 8–9 medium lemons',s:'Evolving Table'},
+    {e:'🟢',a:2,u:'tsp',n:'lemon zest (or mixed lemon + lime)',nt:'Zest before juicing',s:'Evolving Table'},
+    {e:'🍬',a:0.75,u:'cup',n:'granulated sugar',nt:'For simple syrup',s:'Evolving Table'},
+    {e:'💧',a:0.75,u:'cup',n:'water (for simple syrup)',nt:'Equal ratio to sugar',s:'Evolving Table'},
+    {e:'🧂',a:'pinch',u:'',n:'fine sea salt',nt:'Enhances citrus brightness',s:'Pretty. Simple. Sweet.'},
+    {e:'🌸',a:1,u:'tbsp',n:'elderflower cordial (optional but magical)',nt:'Steep in warm syrup 1h, strain',s:'Ginger with Spice'},
+    {e:'🥚',a:1,u:'large',n:'egg white (optional — for creaminess)',nt:'Whipped to stiff peaks, folded in before 2nd freeze',s:'Ginger with Spice'},
+  ]},
+  s:{base:4,ings:[
+    {e:'🍓',a:4,u:'cups',n:'frozen strawberries',nt:'Or fresh hulled berries frozen 1h on parchment',s:'Consensus'},
+    {e:'🍬',a:0.5,u:'cup',n:'granulated sugar',nt:'Only granulated works for correct texture',s:'Pretty. Simple. Sweet.'},
+    {e:'💧',a:0.25,u:'cup',n:'water (for simple syrup)',nt:'With the sugar above',s:'Multiple sources'},
+    {e:'🍋',a:1,u:'tbsp',n:'fresh lemon juice',nt:'Amplifies strawberry — does not taste like lemon',s:'Consensus'},
+    {e:'🧂',a:'pinch',u:'',n:'fine sea salt',nt:'Non-negotiable flavour amplifier',s:'Pretty. Simple. Sweet.'},
+    {e:'🍁',a:1,u:'tbsp',n:'maple syrup (optional)',nt:'Or extra sugar to taste',s:'Powerhungry'},
+  ]},
+  p:{base:4,ings:[
+    {e:'🍑',a:4,u:'cups',n:'fresh ripe peaches, sliced & peeled',nt:'About 5–6 medium peaches — riper = better',s:'Insanely Good'},
+    {e:'🍬',a:0.5,u:'cup',n:'brown sugar (or granulated)',nt:'Brown adds caramel depth that pairs with peach',s:'Ginger with Spice'},
+    {e:'🍋',a:2,u:'tbsp',n:'fresh lemon juice',nt:'Add to taste — peach sweetness varies enormously',s:'Consensus'},
+    {e:'🧂',a:'¼',u:'tsp',n:'fine sea salt',nt:'Taste and add after blending',s:'Insanely Good'},
+    {e:'🍦',a:1,u:'tsp',n:'vanilla extract',nt:'Especially complementary with brown sugar',s:'Ginger with Spice'},
+    {e:'🥃',a:1,u:'tbsp',n:'bourbon (optional)',nt:'Legendary with peach + lowers freezing point',s:'Ginger with Spice'},
+    {e:'🍯',a:1,u:'tbsp',n:'honey (optional)',nt:'Replace sugar — keeps it softer and more scoopable',s:'Craving Something Healthy'},
+  ]},
+};
+
+const SV={m:6,w:6,l:4,s:4,p:4};
+
+function fr(v){
+  if(typeof v==='string') return v;
+  if(v===Math.floor(v)) return String(v);
+  const wh=Math.floor(v),f=v-wh;
+  const map={.125:'⅛',.25:'¼',.333:'⅓',.5:'½',.667:'⅔',.75:'¾'};
+  const m=Object.entries(map).find(([k])=>Math.abs(f-parseFloat(k))<.05);
+  if(m) return wh?wh+' '+m[1]:m[1];
+  return v.toFixed(1);
+}
+
+function renderIngs(k){
+  const r=RECIPES[k],mult=SV[k]/r.base;
+  document.getElementById(k+'-ig').innerHTML=r.ings.map(i=>`
+    <div class="ingcard">
+      <div class="ingicon">${i.e}</div>
+      <div style="flex:1">
+        <div class="ing-amt">${fr(typeof i.a==='number'?i.a*mult:i.a)} <span class="ing-unit">${i.u}</span></div>
+        <div class="ing-name">${i.n}</div>
+        <div class="ing-note">${i.nt} · <em>${i.s}</em></div>
+      </div>
+    </div>`).join('');
+}
+
+function cs(k,d){
+  SV[k]=Math.max(1,Math.min(24,SV[k]+d));
+  document.getElementById(k+'-sc').textContent=SV[k];
+  renderIngs(k);
+}
+
+['m','w','l','s','p'].forEach(renderIngs);
+
+// ── SCROLL REVEAL ──
+function initReveal(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*62);obs.unobserve(e.target);}
+    });
+  },{threshold:.1});
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el=>obs.observe(el));
+}
+initReveal();
+
+// ── TIMERS ──
+function startTimer(sec,btn){
+  if(btn.dataset.on) return;
+  btn.dataset.on='1';
+  let r=sec;
+  (function tick(){
+    const h=Math.floor(r/3600),m=Math.floor((r%3600)/60),s=r%60;
+    btn.textContent=h?`⏱ ${h}h ${m}m left`:`⏱ ${m}:${String(s).padStart(2,'0')} left`;
+    if(r--<=0){btn.textContent='✅ Done!';btn.style.cssText='background:#2a6e2a;color:#fff;border-color:transparent';delete btn.dataset.on;return;}
+    setTimeout(tick,1000);
+  })();
+}
+</script>
+</body>
+</html>
